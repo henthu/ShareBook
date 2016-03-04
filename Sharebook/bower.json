@@ -1,0 +1,9 @@
+{
+  "name": "Sharebook",
+  "private": true,
+  "dependencies": {
+      "bootstrap":"~3.3.6",
+      "bootswatch": "~3.3.5"
+  },
+  "exportsOverride": {}
+}
