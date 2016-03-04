@@ -1,23 +1,25 @@
 <!doctype html>
-<head>  
+<html>
+<head>
     <title>The Sharebook</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/lib/bootswatch/cyborg/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootswatch/cyborg/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css"/>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <ul class="nav navbar-nav">
             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a href="#">About</a></li>
+            <li><a asp-controller="Home" asp-action="About">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </div>
-    <div class="container body-content">
+    <div class="container">
         @RenderBody()
-        <footer>
-                <p>&copy; 2016 - ShareBook</p>
-        </footer>
     </div>
+    <footer>
+        <p class="text-center text-info">&copy; 2016 - ShareBook</p>
+    </footer>
 </body>
-@RenderSection("Scripts",false)
-    
+@RenderSection("Scripts", required: false)
+</html>     
