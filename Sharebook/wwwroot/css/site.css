@@ -1,0 +1,16 @@
+
+body{
+    padding-top:70px;
+    padding-bottom: 70px;
+    background-image: url('/img/open-book.jpg') ;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+img{
+    border: none;
+}
+#wrapper{
+    background-color:black;
+    height: 100%;
+}

@@ -7,20 +7,23 @@
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
 <body>
-    <header class="container">
     <div class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand">Sharebook</a>
+        </div>
         <ul class="nav navbar-nav">
-            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-controller="Home" asp-action="About">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </div>
-    </header>
-    <div class="container">
+    
+    <div id="wrapper" class="col-md-6 col-md-offset-3">
+           
         @RenderBody()
-        
+           
     </div>
-    <footer class="container">
+    
+    <footer class="navbar navbar-default navbar-fixed-bottom">
         <p class="text-center text-info">&copy; 2016 - ShareBook</p>
     </footer>
 </body>
