@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="~/lib/bootswatch/cyborg/bootstrap.min.css"/>
 </head>
 <body>
+    <header class="container">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <ul class="nav navbar-nav">
             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
@@ -12,12 +13,14 @@
             <li><a href="#">Contact</a></li>
         </ul>
     </div>
-    <div class="container body-content">
+    </header>
+    <div class="container">
         @RenderBody()
-        <footer>
-                <p>&copy; 2016 - ShareBook</p>
-        </footer>
+        
     </div>
+    <footer class="container">
+                <p>&copy; 2016 - ShareBook</p>
+    </footer>
 </body>
 @RenderSection("Scripts",false)
     
