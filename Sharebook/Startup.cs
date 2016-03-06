@@ -7,17 +7,33 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNet.StaticFiles;
-
+using Microsoft.Data.Entity;
+using Sharebook.Models;
+using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace Sharebook
 {
     public class Startup
     {
+        public IConfigurationRoot Configuration { get; set; }
+        public Startup(IApplicationEnvironment appEnv)
+        {
+            var builder = new ConfigurationBuilder()
+                            .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddEntityFramework()
+            .AddSqlite()
+            .AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(Configuration["Data:DefaultConnection:ConnectionString"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
