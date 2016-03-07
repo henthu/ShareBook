@@ -20,7 +20,7 @@ namespace Sharebook.Controllers.API
         {
             _repository = repository;
         }
-        // GET: api/values
+        // GET: api/users
         [HttpGet]
         public JsonResult Get()
         {
@@ -30,7 +30,7 @@ namespace Sharebook.Controllers.API
             return Json(usersVm);
         }
 
-        // GET api/values/userName
+        // GET api/users/userName
         [HttpGet("{userName}")]
         public JsonResult Get(string userName)
         {
@@ -38,16 +38,16 @@ namespace Sharebook.Controllers.API
         }
 
 
-        // PUT api/values/userName
+        // PUT api/users/userName
         [HttpPut("{userName}")]
         public void Put(string userName, [FromBody]string value)
         {
             
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/users/userName
+        [HttpDelete("{userName}")]
+        public void Delete(string userName)
         {
         }
     }
