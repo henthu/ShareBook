@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Sharebook.Models;
+using Sharebook.ViewModels;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,37 +14,35 @@ namespace Sharebook.Controllers.API
     [Route("api/users")]
     public class UserController : Controller
     {
-        private ISharebookRepository _context;
+        private ISharebookRepository _repository;
 
-        public UserController(ISharebookRepository context)
+        public UserController(ISharebookRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
         // GET: api/values
         [HttpGet]
         public JsonResult Get()
         {
-            var users = _context.GetAllUsers();
-            return Json(null);
+            var users = _repository.GetAllUsers();
+            var usersVm = Mapper.Map<IEnumerable<UserViewModel>>(users);
+            
+            return Json(usersVm);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/values/userName
+        [HttpGet("{userName}")]
+        public JsonResult Get(string userName)
         {
-            return "value";
+            return Json(Mapper.Map<UserViewModel>(_repository.GetUserByName(userName)));
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // PUT api/values/userName
+        [HttpPut("{userName}")]
+        public void Put(string userName, [FromBody]string value)
         {
+            
         }
 
         // DELETE api/values/5
