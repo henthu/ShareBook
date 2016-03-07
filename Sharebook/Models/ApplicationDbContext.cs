@@ -11,5 +11,13 @@ namespace Sharebook.Models
         }
         
         public DbSet<Book> Books { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var connString = Startup.Configuration["Data:DefaultConnection:ConnectionString"];
+            optionsBuilder.UseSqlite(connString);
+
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

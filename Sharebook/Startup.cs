@@ -16,7 +16,7 @@ namespace Sharebook
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; set; }
+        public static IConfigurationRoot Configuration { get; set; }
         public Startup(IApplicationEnvironment appEnv)
         {
             var builder = new ConfigurationBuilder()
