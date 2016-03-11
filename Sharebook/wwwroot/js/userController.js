@@ -27,14 +27,14 @@
         vm.addUser = function () {
             vm.isBusy = true;
             vm.errorMessage = "";
-            $http.post("/api/users", vm.newUser)
+            $http.put("/api/users", vm.newUser)
             .then(function (response) {
                 //success
-                
+                $location.path("/");
                 
             },function (error) {
                 //failure
-                vm.errorMessage
+                vm.errorMessage = "failed create user : "+ error;
             })
             .finally(function () {
                 vm.isBusy = false;

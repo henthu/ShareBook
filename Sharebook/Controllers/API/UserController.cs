@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.AspNet.Mvc;
 using Sharebook.Models;
 using Sharebook.ViewModels;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,10 +17,16 @@ namespace Sharebook.Controllers.API
     public class UserController : Controller
     {
         private ISharebookRepository _repository;
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
 
-        public UserController(ISharebookRepository repository)
+        public UserController(ISharebookRepository repository,
+                UserManager<ApplicationUser> userManager,
+                SignInManager<ApplicationUser> signinManager)
         {
             _repository = repository;
+            _userManager = userManager;
+            _signInManager = signinManager;
         }
         // GET: api/users
         [HttpGet]
@@ -38,13 +46,44 @@ namespace Sharebook.Controllers.API
         }
 
 
-        // PUT api/users/userName
-        [HttpPut("{userName}")]
-        public void Put(string userName, [FromBody]string value)
+        // PUT api/users/
+        [HttpPut("")]
+        public async Task<IActionResult> Put([FromBody]UserViewModel user)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var newUser = Mapper.Map<ApplicationUser>(user);
+                    var result = await _userManager.CreateAsync(newUser, newUser.PasswordHash);
+                    if(result.Succeeded){
+                        await _signInManager.SignInAsync(newUser,false);
+                        return Json(Mapper.Map<UserViewModel>(newUser));
+                    }else
+                    {
+                         Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                         AddErrors(result);
+                         return Json("Failed to create user");
+                    }
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed to create user"+e.Message);
+            }
             
+              Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json("Failed to create user");
         }
-
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
         // DELETE api/users/userName
         [HttpDelete("{userName}")]
         public void Delete(string userName)
