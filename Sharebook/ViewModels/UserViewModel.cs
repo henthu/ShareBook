@@ -15,7 +15,7 @@ namespace Sharebook.ViewModels
         public string LastName { get; set; }
         [Required]
         [StringLength(250,MinimumLength =8)]
-        [RegularExpression("^.*(?=.{8,})(?=.*[\d])(?=.*[\W]).*$")]
+        [RegularExpression("^.*(?=.{8,})(?=.*[\\d])(?=.*[\\W]).*$")]
         public string Password { get; set; }
         [EmailAddressAttribute]
         public string Email { get; set; }

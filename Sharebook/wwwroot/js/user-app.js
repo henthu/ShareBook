@@ -3,14 +3,16 @@
 (function () {
     "use strict";
     
-    var userApp = angular.module("userApp",["ngRoute"]);
-    
-    userApp.config(["$routeProvider"],function ($routeProvider) {
-        $routeProvider.
-        when("/users/register",{
-            templateUrl: "register.html"
-        })
-    }
-    );
-    
-})
+    angular.module("user-app",["ngRoute"])
+        .config(function ($routeProvider) {
+            $routeProvider.
+            when("/users/register",{
+                templateUrl: "/views/register.html"
+            });
+            
+            $routeProvider.otherwise({
+                redirectTo:"/"
+            });
+        });
+}
+)();

@@ -18,7 +18,7 @@ namespace Sharebook.Models
             return _context.Books;
         }
 
-        private ApplicationUser GetUserByName(string userName)
+        public ApplicationUser GetUserByName(string userName)
         {
             return _context.Users
                 .Where(user => user.UserName == userName)
