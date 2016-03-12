@@ -15,6 +15,8 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Authentication.Cookies;
 using System.Net;
+using AutoMapper;
+using Sharebook.ViewModels;
 
 namespace Sharebook
 {
@@ -26,6 +28,7 @@ namespace Sharebook
             var builder = new ConfigurationBuilder()
                             .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
+            Configuration["Data:DefaultConnection:ConnectionString"] = $@"Data Source={appEnv.ApplicationBasePath}/ShareBook.db";
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
@@ -63,14 +66,18 @@ namespace Sharebook
                     }
                 };
             }
-            );
+            )
+            .AddEntityFrameworkStores<ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
             app.UseStaticFiles();
-
+            app.UseIdentity();
+            Mapper.Initialize(config=> {
+                config.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

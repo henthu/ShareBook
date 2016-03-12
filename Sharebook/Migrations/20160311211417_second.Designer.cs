@@ -8,8 +8,8 @@ using Sharebook.Models;
 namespace Sharebook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160305211850_initDatabase")]
-    partial class initDatabase
+    [Migration("20160311211417_second")]
+    partial class second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,6 +111,10 @@ namespace Sharebook.Migrations
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 

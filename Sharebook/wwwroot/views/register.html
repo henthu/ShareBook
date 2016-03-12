@@ -4,11 +4,11 @@
         <div>
             <label>User Name :</label>
             <input class="form-control" 
-                    id="Login"
-                    name="Login"
+                    id="UserName"
+                    name="UserName"
                     required
-                    ng-model="vm.newUser.Login"/>
-            <span class="text-danger" ng-show="newUserForm.Login.$error.required">This field is required!</span>
+                    ng-model="vm.newUser.UserName"/>
+            <span class="text-danger" ng-show="newUserForm.UserName.$error.required">This field is required!</span>
         </div>
         <div>
             <label>First Name :</label>
@@ -56,7 +56,7 @@
         </div>
         
         <div>
-            <input class="btn btn-success" type="submit" value="Register" ng-disabled="newUserForm.$invalid"/>
+            <input class="btn btn-lg btn-success" type="submit" value="Register" ng-disabled="newUserForm.$invalid"/>
         </div>
         
     </form>

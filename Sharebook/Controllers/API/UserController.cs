@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Sharebook.Controllers.API
 {
-    [Route("api/users")]
+    [Route("/api/users")]
     public class UserController : Controller
     {
         private ISharebookRepository _repository;
@@ -47,15 +47,15 @@ namespace Sharebook.Controllers.API
 
 
         // PUT api/users/
-        [HttpPut("")]
-        public async Task<IActionResult> Put([FromBody]UserViewModel user)
+        [HttpPost("")]
+        public async Task<IActionResult> Post([FromBody]UserViewModel user)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     var newUser = Mapper.Map<ApplicationUser>(user);
-                    var result = await _userManager.CreateAsync(newUser, newUser.PasswordHash);
+                    var result = await _userManager.CreateAsync(newUser, user.Password);
                     if(result.Succeeded){
                         await _signInManager.SignInAsync(newUser,false);
                         return Json(Mapper.Map<UserViewModel>(newUser));
@@ -63,7 +63,7 @@ namespace Sharebook.Controllers.API
                     {
                          Response.StatusCode = (int)HttpStatusCode.BadRequest;
                          AddErrors(result);
-                         return Json("Failed to create user");
+                         return Json("Failed to create user"+result);
                     }
                     
                 }
