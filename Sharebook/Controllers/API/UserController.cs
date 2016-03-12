@@ -32,58 +32,18 @@ namespace Sharebook.Controllers.API
         [HttpGet]
         public JsonResult Get()
         {
-            var users = _repository.GetAllUsers();
-            var usersVm = Mapper.Map<IEnumerable<UserViewModel>>(users);
-            
-            return Json(usersVm);
+           
+            return Json(null);
         }
 
         // GET api/users/userName
         [HttpGet("{userName}")]
         public JsonResult Get(string userName)
         {
-            return Json(Mapper.Map<UserViewModel>(_repository.GetUserByName(userName)));
+            return Json(null);
         }
 
 
-        // PUT api/users/
-        [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody]UserViewModel user)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var newUser = Mapper.Map<ApplicationUser>(user);
-                    var result = await _userManager.CreateAsync(newUser, user.Password);
-                    if(result.Succeeded){
-                        await _signInManager.SignInAsync(newUser,false);
-                        return Json(Mapper.Map<UserViewModel>(newUser));
-                    }else
-                    {
-                         Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                         AddErrors(result);
-                         return Json("Failed to create user"+result);
-                    }
-                    
-                }
-            }
-            catch (Exception e)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Failed to create user"+e.Message);
-            }
-            
-              Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json("Failed to create user");
-        }
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
         // DELETE api/users/userName
         [HttpDelete("{userName}")]
         public void Delete(string userName)

@@ -30,7 +30,8 @@
             $http.post("/api/users", vm.newUser)
             .then(function (response) {
                 //success
-                vm.errorMessage = "user created"+response.data;
+                vm.newUser = response.Data;
+                window.location.href = "/";
                 
             },function (error) {
                 //failure

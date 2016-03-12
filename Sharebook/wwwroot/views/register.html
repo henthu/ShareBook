@@ -1,7 +1,7 @@
 <div>
     <div class="alert alert-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
-    <form class="form-group" name="newUserForm" novalidate ng-submit="vm.addUser()">
-        <div>
+    <form  name="newUserForm" novalidate ng-submit="vm.addUser()">
+        <div class="form-group">
             <label>User Name :</label>
             <input class="form-control" 
                     id="UserName"
@@ -10,7 +10,7 @@
                     ng-model="vm.newUser.UserName"/>
             <span class="text-danger" ng-show="newUserForm.UserName.$error.required">This field is required!</span>
         </div>
-        <div>
+        <div class="form-group">
             <label>First Name :</label>
             <input class="form-control" 
                     id="FirstName"
@@ -20,7 +20,7 @@
             <span class="text-danger" ng-show="newUserForm.FirstName.$error.required">This field is required!</span>
         </div>
         
-        <div>
+        <div class="form-group">
             <label>Last Name :</label>
             <input class="form-control" 
                     id="LastName"
@@ -30,7 +30,7 @@
             <span class="text-danger" ng-show="newUserForm.LastName.$error.required">This field is required!</span>
         </div>
         
-        <div>
+        <div class="form-group">
             <label>Email :</label>
             <input class="form-control" 
                     id="Email"
@@ -42,7 +42,7 @@
             <span class="text-danger" ng-show="newUserForm.Email.$error.pattern">Wrong Email format!</span>
         </div>
         
-        <div>
+        <div class="form-group">
             <label>Password :</label>
             <input class="form-control" 
                     id="Password"
@@ -55,7 +55,7 @@
             <span class="text-danger" ng-show="newUserForm.Password.$error.pattern">Password should contain at least 8 characters, 1 uppercase, 1 lower case and 1 letter!</span>
         </div>
         
-        <div>
+        <div class="form-group">
             <input class="btn btn-lg btn-success" type="submit" value="Register" ng-disabled="newUserForm.$invalid"/>
         </div>
         

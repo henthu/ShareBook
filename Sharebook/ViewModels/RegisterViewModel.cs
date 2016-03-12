@@ -2,7 +2,7 @@
 
 namespace Sharebook.ViewModels
 {
-   public class UserViewModel
+   public class RegisterViewModel
     {
         [Required]
         [StringLength(50,MinimumLength =5)]

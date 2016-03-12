@@ -7,6 +7,8 @@
         .config(function ($routeProvider) {
             $routeProvider.
             when("/users/register",{
+                controller:"userController",
+                controllerAs:"vm",
                 templateUrl: "/views/register.html"
             });
             
