@@ -7,6 +7,7 @@ using Microsoft.AspNet.Mvc;
 using AutoMapper;
 using Sharebook.ViewModels;
 using Sharebook.Models;
+using System.Web.Http;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,9 +25,9 @@ namespace Sharebook.Controllers.API
 
         // POST api/values
         [HttpPost]
-        public JsonResult Post(string value)
+        public JsonResult Post(CountryViewModel country)
         {
-            var cities = Mapper.Map<IEnumerable<CityViewModel>>(_repository.GetCities(value));
+            var cities = Mapper.Map<IEnumerable<CityViewModel>>(_repository.GetCities(country.CountryCode));
             var result = new { Data = new 
                                 {success= true,
                                  cities = Json(cities)

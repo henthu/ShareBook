@@ -9,7 +9,8 @@ function getCities(countryCode) {
         },
         success: function (data) {
             var items = "";
-            $.each(data, function (i, item) {
+            alert(data);
+            $.each(data.cities, function (i, item) {
                 items += "<option value=\"" + item.id + "\">" + item.name + "</option>";
             });
 
