@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+
 using AutoMapper;
 using Sharebook.ViewModels;
 using Sharebook.Models;
@@ -23,11 +24,14 @@ namespace Sharebook.Controllers.API
 
         // POST api/values
         [HttpPost]
-        public JsonResult Post([FromBody]string value)
+        public JsonResult Post(string value)
         {
             var cities = Mapper.Map<IEnumerable<CityViewModel>>(_repository.GetCities(value));
-            var result = new {output= cities,
-                                selected = cities.FirstOrDefault().Id};
+            var result = new { Data = new 
+                                {success= true,
+                                 cities = Json(cities)
+                                }
+                        };
 
             return Json(result);
         }
