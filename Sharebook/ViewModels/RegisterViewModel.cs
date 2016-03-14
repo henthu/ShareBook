@@ -15,10 +15,14 @@ namespace Sharebook.ViewModels
         public string LastName { get; set; }
         [Required]
         [StringLength(250,MinimumLength =8)]
-        [RegularExpression("^.*(?=.{8,})(?=.*[\\d])(?=.*[\\W]).*$")]
+        [RegularExpression("^.*(?=.{8,})(?=.*[\\d])(?=.*[\\W]).*$",ErrorMessage ="Password must be 8 characters at least with at least 1 lower case, 1 number and 1 upper case")]
         public string Password { get; set; }
         [EmailAddressAttribute]
         public string Email { get; set; }
+        [Required]
+        public string Country { get; set; }
+        [Required]
+        public string City { get; set; }
 
     }
    

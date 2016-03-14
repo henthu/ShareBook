@@ -28,7 +28,6 @@ namespace Sharebook
             var builder = new ConfigurationBuilder()
                             .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
-            Configuration["Data:DefaultConnection:ConnectionString"] = $@"Data Source={appEnv.ApplicationBasePath}/ShareBook.db";
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
@@ -55,7 +54,7 @@ namespace Sharebook
                  config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
                 {
                     OnRedirectToLogin = ctx => {
-                        if (ctx.Request.Path.StartsWithSegments("/api") &&
+                        if (ctx.Request.Path.StartsWithSegments("/api/users") &&
                         ctx.Response.StatusCode == (int)HttpStatusCode.OK) {
                             ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         }
@@ -77,6 +76,7 @@ namespace Sharebook
             app.UseIdentity();
             Mapper.Initialize(config=> {
                 config.CreateMap<ApplicationUser, RegisterViewModel>().ReverseMap();
+                config.CreateMap<City, CityViewModel>().ReverseMap();
             });
             app.UseMvc(routes =>
             {

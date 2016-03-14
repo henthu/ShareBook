@@ -35,5 +35,13 @@ namespace Sharebook.Models
 
             return user?.Books;
         }
+
+        public IEnumerable<City> GetCities(string countryCode)
+        {
+            IEnumerable<City> result = _context.Cities
+                                        .Where(city => city.CountryCode == countryCode)
+                                        .ToList();
+            return result;
+        }
     }
 }

@@ -103,8 +103,12 @@ namespace Sharebook.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<int?>("CityId");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Country");
 
                     b.Property<string>("Email")
                         .HasAnnotation("MaxLength", 256);
@@ -165,6 +169,18 @@ namespace Sharebook.Migrations
                     b.HasKey("ID");
                 });
 
+            modelBuilder.Entity("Sharebook.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CountryCode");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -195,6 +211,13 @@ namespace Sharebook.Migrations
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Sharebook.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Sharebook.Models.City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
                 });
 
             modelBuilder.Entity("Sharebook.Models.Book", b =>

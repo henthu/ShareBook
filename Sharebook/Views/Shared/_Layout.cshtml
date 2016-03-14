@@ -4,19 +4,32 @@
     <title>The Sharebook</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootswatch/cyborg/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/lib/dependent-dropdown/css/dependent-dropdown.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
             <a asp-controller="Home" asp-action="Index" class="navbar-brand">Sharebook</a>
         </div>
-        <div class="navbar-collapse collapse navbar-right">
-            <ul class="nav navbar-nav">
-                <li><a asp-action="Login" asp-controller="Auth">Login</a></li>
-                <li><a asp-action="Register" asp-controller="Auth">Register</a></li>
-            </ul>
-        </div>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a asp-action="Login" asp-controller="Auth">Login</a></li>
+                    <li><a asp-action="Register" asp-controller="Auth">Register</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a asp-action="Logout" asp-controller="Auth">Logout</a></li>
+                </ul>
+            </div>
+
+        }
     </div>
     <div class="row">
         <div id="wrapper" class="col-md-6 col-md-offset-3">
@@ -25,11 +38,10 @@
 
         </div>
     </div>
-    
+
     <footer class="navbar navbar-default navbar-fixed-bottom">
         <p class="text-center text-info">&copy; 2016 - ShareBook</p>
     </footer>
 </body>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 @RenderSection("Scripts", required: false)
 </html>     
