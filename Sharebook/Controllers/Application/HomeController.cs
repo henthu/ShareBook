@@ -15,9 +15,5 @@ namespace Sharebook.Controllers.Application
         {
             return View();
         }
-        public IActionResult About()
-        {
-            return View();
-        }
     }
 }

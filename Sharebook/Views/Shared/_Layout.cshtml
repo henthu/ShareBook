@@ -4,7 +4,7 @@
     <title>The Sharebook</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootswatch/cyborg/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/dependent-dropdown/css/dependent-dropdown.min.css"/>
+    <link rel="stylesheet" href="~/lib/Font-Awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -25,7 +25,15 @@
         {
             <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li><a asp-action="Logout" asp-controller="Auth">Logout</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a asp-action="Logout" asp-controller="Auth"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li class="divider"></li>
+                            <li><a asp-action="ChangePassword" asp-controller="Auth"><i class="fa fa-lock"></i> Change Password</a></li>
+                        </ul>
+                        
+                    </li>
                 </ul>
             </div>
 
@@ -42,6 +50,8 @@
     <footer class="navbar navbar-default navbar-fixed-bottom">
         <p class="text-center text-info">&copy; 2016 - ShareBook</p>
     </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 @RenderSection("Scripts", required: false)
 </html>     

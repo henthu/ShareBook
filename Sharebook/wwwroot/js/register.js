@@ -9,15 +9,17 @@ function getCities(countryCode) {
         },
         success: function (data) {
             var items = "";
-            alert(data);
-            $.each(data.cities, function (i, item) {
-                items += "<option value=\"" + item.id + "\">" + item.name + "</option>";
+            
+            $.each(data.data.cities.value, function (i, item) {
+                items += "<option value=\"" + item.name + "\">" + item.name + "</option>";
             });
 
             $("#City").html(items);
+            ;
         }
     });
 }
+
 
 $(document).ready(function () {
     $("#Country").change(function () {

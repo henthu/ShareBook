@@ -75,7 +75,10 @@ namespace Sharebook
             app.UseStaticFiles();
             app.UseIdentity();
             Mapper.Initialize(config=> {
-                config.CreateMap<ApplicationUser, RegisterViewModel>().ReverseMap();
+                config.CreateMap<RegisterViewModel,ApplicationUser>()
+                        .ForMember(dest =>dest.City,
+                                    options => options.Ignore())
+                       .ReverseMap();
                 config.CreateMap<City, CityViewModel>().ReverseMap();
             });
             app.UseMvc(routes =>

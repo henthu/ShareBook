@@ -43,5 +43,11 @@ namespace Sharebook.Models
                                         .ToList();
             return result;
         }
+        public City GetCityByName(string name){
+            City city = _context.Cities
+                    .Where(c=>c.Name == name)
+                    .FirstOrDefault();
+            return city;
+        }
     }
 }
