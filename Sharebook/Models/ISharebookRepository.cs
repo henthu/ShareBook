@@ -7,10 +7,9 @@ namespace Sharebook.Models
     {
         IEnumerable<ApplicationUser> GetAllUsers();
         IEnumerable<Book> GetAllBooks();
-        IEnumerable<Book> GetUserBooks(String userName);
+        ApplicationUser GetUserBooks(String userName);
         ApplicationUser GetUserByName(string userName);
         IEnumerable<City> GetCities(string CountryCode);
         City GetCityByName(string name);
-
     }
 }

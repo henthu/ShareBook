@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,17 +30,21 @@ namespace Sharebook.Models
             return _context.Users;
         }
 
-        public IEnumerable<Book> GetUserBooks(string userName)
+        public ApplicationUser GetUserBooks(string userName)
         {
-            ApplicationUser user = GetUserByName(userName);
+            var userWithBooks = _context.Users
+                                .Include(user => user.Books)
+                                .Where(user => user.UserName == userName)
+                                .FirstOrDefault();
 
-            return user?.Books;
+            return userWithBooks;
         }
 
         public IEnumerable<City> GetCities(string countryCode)
         {
             IEnumerable<City> result = _context.Cities
                                         .Where(city => city.CountryCode == countryCode)
+                                        .OrderBy(city => city.Name)
                                         .ToList();
             return result;
         }
@@ -49,5 +54,7 @@ namespace Sharebook.Models
                     .FirstOrDefault();
             return city;
         }
+
+        
     }
 }

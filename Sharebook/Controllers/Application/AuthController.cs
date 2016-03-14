@@ -5,6 +5,7 @@ using Sharebook.Models;
 using Sharebook.ViewModels;
 using AutoMapper;
 using System.Linq;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -108,8 +109,10 @@ namespace Sharebook.Controllers.Application
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    string curentUserID = User.Identity.GetUserId();
-                    ApplicationUser currentUser = _signinManager.
+                    string curentUserID = User.GetUserId();
+                    ApplicationUser currentUser = _context.Users
+                            .Where(user => user.Id == curentUserID)
+                            .FirstOrDefault();
                                                   
                     var result = await _userManager.ChangePasswordAsync(currentUser, vm.OldPassword, vm.NewPassword);
                     if(result.Succeeded){

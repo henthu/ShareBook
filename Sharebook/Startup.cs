@@ -17,11 +17,13 @@ using Microsoft.AspNet.Authentication.Cookies;
 using System.Net;
 using AutoMapper;
 using Sharebook.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace Sharebook
 {
     public class Startup
     {
+
         public static IConfigurationRoot Configuration { get; set; }
         public Startup(IApplicationEnvironment appEnv)
         {
@@ -80,6 +82,7 @@ namespace Sharebook
                                     options => options.Ignore())
                        .ReverseMap();
                 config.CreateMap<City, CityViewModel>().ReverseMap();
+                config.CreateMap<UserBooksViewModel, ApplicationUser>().ReverseMap();
             });
             app.UseMvc(routes =>
             {
