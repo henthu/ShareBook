@@ -11,7 +11,7 @@ function getCities(countryCode) {
             var items = "";
             
             $.each(data.data.cities.value, function (i, item) {
-                items += "<option value=\"" + item.name + "\">" + item.name + "</option>";
+                items += "<option value=\"" + item.id + "\">" + item.name + "</option>";
             });
 
             $("#City").html(items);

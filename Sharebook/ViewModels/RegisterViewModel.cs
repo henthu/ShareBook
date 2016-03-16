@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
+using Sharebook.Models;
 
 namespace Sharebook.ViewModels
 {
+    [Validator(typeof(ApplicationUserValidator))]
    public class RegisterViewModel
     {
         [Required]
         [StringLength(50,MinimumLength =5)]
-        []
         public string UserName { get; set; }
         [Required]
         [StringLength(50,MinimumLength =3)]

@@ -48,13 +48,27 @@ namespace Sharebook.Models
                                         .ToList();
             return result;
         }
-        public City GetCityByName(string name){
-            City city = _context.Cities
-                    .Where(c=>c.Name == name)
-                    .FirstOrDefault();
+        public City GetCityById(string id){
+           
+            int intId;
+            City city;
+            
+            if(int.TryParse(id,out intId)){
+                city = _context.Cities
+                .Where(c=>c.Id == intId)
+                .FirstOrDefault();
+            }else
+            {
+                city = null;
+            }
+            
             return city;
+            
         }
 
-        
+        public bool SaveAll()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

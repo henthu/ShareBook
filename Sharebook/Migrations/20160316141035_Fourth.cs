@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace Sharebook.Migrations
 {
-    public partial class third : Migration
+    public partial class Fourth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

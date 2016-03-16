@@ -1,0 +1,32 @@
+<div class="row">
+<div class="col-md-offset1 col-md-7">
+    <h2>My Books:</h2>
+    <span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+    <table class="table table-responsive table-striped">
+        <div ng-show="vm.isBusy">
+            <span><i class="fa fa-circle-o-notch fa-spin" ></i> Loading...</span>
+        </div>
+        <tr ng-repeat="book in vm.myProfile.books">
+            <td>{{book.name}}</td>
+            <td> by {{book.author}} </td>
+        </tr>
+    </table>
+</div>
+<div class="col-md-offset1 col-md-3">
+    <form name="newBookForm" novalidate class="form-horizontal" ng-submit="vm.addBook()">
+        <div class="form-group">
+            <label>Title</label>
+            <input class="form-control" type="text" id="title" name="title" ng-model="vm.newBook.title" required/>
+            <span class="text-warning" ng-show="newBookForm.title.$error.required">Title is required</span>  
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <input class="form-control" type="text" id="author" name="author" ng-model="vm.newBook.author" required/>
+            <span class="text-warning" ng-show="newBookForm.author.$error.required">Author is required</span>  
+        </div>
+        <div class="form-group">
+            <input class="btn btn-primary btn-sm" ng-disabled="newBookForm.$invalid" type="submit" value="Add Book"/>
+        </div>
+    </form>
+</div>
+</div>

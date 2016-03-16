@@ -6,10 +6,10 @@
     angular.module("user-app",["ngRoute"])
         .config(function ($routeProvider) {
             $routeProvider.
-            when("/users/register",{
-                controller:"userController",
+            when("/",{
+                controller:"homeController",
                 controllerAs:"vm",
-                templateUrl: "/views/register.html"
+                templateUrl:"/views/home.html"
             });
             
             $routeProvider.otherwise({

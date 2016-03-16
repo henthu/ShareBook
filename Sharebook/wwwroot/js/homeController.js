@@ -1,21 +1,22 @@
-//userController.js
+//homeController.js
 
 (function () {
     "use strict";
     angular.module("user-app")
-    .controller("userController",userController);
+    .controller("homeController",homeController);
     
-    function userController($http) {
+    function homeController($http) {
         var vm = this;
         
         vm.errorMessage = "";
-        vm.newUser = {};
         vm.isBusy = true;
+        vm.myProfile = {};
+        vm.newBook = {};
         
-        $http.get("/api/users")
+        $http.get("/api/books")
         .then(function (response) {
             //Success
-            angular.copy(response.Data,vm.users);
+            angular.copy(response.Data,vm.myProfile);
         },function (error) {
             //failure
             vm.errorMessage = "Failed to get Data" + error;
@@ -24,22 +25,22 @@
             vm.isBusy = false;
         });
         
-        vm.addUser = function () {
+        vm.addBook = function () {
             vm.isBusy = true;
             vm.errorMessage = "";
-            $http.post("/api/users", vm.newUser)
+            $http.post("/api/books",vm.newBook)
             .then(function (response) {
                 //success
-                vm.newUser = response.Data;
-                window.location.href = "/";
-                
+                vm.myProfile.books.push(response.data);
+                vm.newBook = {};
             },function (error) {
                 //failure
-                vm.errorMessage = "failed create user : "+ error;
+                vm.errorMessage = "Failed to create a new book";
             })
             .finally(function () {
                 vm.isBusy = false;
             });
-        }
+            
+        };
     }
 })();

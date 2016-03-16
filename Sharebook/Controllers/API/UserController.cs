@@ -29,25 +29,12 @@ namespace Sharebook.Controllers.API
             _signInManager = signinManager;
         }
         // GET: api/users
-        [HttpGet]
-        public JsonResult Get()
+        [HttpGet("/{username}/books")]
+         public JsonResult GetUserBooks(string userName)
         {
-           
-            return Json(null);
+            ApplicationUser userWithBooks =  _repository.GetUserBooks(userName);
+            return Json(Mapper.Map<UserBooksViewModel>(userWithBooks));
         }
-
-        // GET api/users/userName
-        [HttpGet("{userName}")]
-        public JsonResult Get(string userName)
-        {
-            return Json(null);
-        }
-
-
-        // DELETE api/users/userName
-        [HttpDelete("{userName}")]
-        public void Delete(string userName)
-        {
-        }
+        
     }
 }

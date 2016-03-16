@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using FluentValidation.Attributes;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Sharebook.Models
 {
+    [Validator(typeof(ApplicationUserValidator))]
     public class ApplicationUser:IdentityUser
     {
         public string FirstName { get; set; }

@@ -9,6 +9,7 @@ namespace Sharebook.Models
         public string Name { get; set; }
         [Required]
         public string Author { get; set; }
+        [Key]
         public int ID {get;set;}
         
     }

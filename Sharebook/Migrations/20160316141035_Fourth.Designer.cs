@@ -8,8 +8,8 @@ using Sharebook.Models;
 namespace Sharebook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160313160855_third")]
-    partial class third
+    [Migration("20160316141035_Fourth")]
+    partial class Fourth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

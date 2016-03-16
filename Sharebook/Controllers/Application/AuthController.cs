@@ -73,7 +73,8 @@ namespace Sharebook.Controllers.Application
             if (ModelState.IsValid)
             {
                 ApplicationUser newUser = Mapper.Map<ApplicationUser>(vm);
-                newUser.City = _repository.GetCityByName(vm.City);
+                
+                newUser.City = _repository.GetCityById(vm.City);
                 var result = await _userManager.CreateAsync(newUser, vm.Password);
                 if (result.Succeeded)
                 {
@@ -82,7 +83,13 @@ namespace Sharebook.Controllers.Application
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Something went wrong, could not register user");
+                    ApplicationUserValidator validator = new ApplicationUserValidator(_context);
+                    var results = validator.Validate(newUser);
+                    if(!results.IsValid){
+                        ModelState.AddModelError("","username already used, choose another one");
+                    }else{
+                        ModelState.AddModelError("", "could not register user");
+                    }
                 }
 
             }

@@ -3,10 +3,16 @@
     <script type="text/javascript" src="~/lib/angular-route/angular-route.min.js"></script>
     
     <script type="text/javascript" src="~/js/user-app.js"></script>
-    <script type="text/javascript" src="~/js/userController.js"></script>
+    <script type="text/javascript" src="~/js/homeController.js"></script>
     
     
 }
 <div ng-app="user-app">
-    <div ng-view></div>
+    @if(User.Identity.IsAuthenticated){
+        <div ng-view></div>
+    }else{
+        <div>
+            <h1>Welcome To Sharebook</h1>
+        </div>
+    }
 </div>
