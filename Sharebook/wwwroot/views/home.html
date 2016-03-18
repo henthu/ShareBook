@@ -1,32 +1,81 @@
 <div class="row">
-<div class="col-md-offset1 col-md-7">
-    <h2>My Books:</h2>
-    <span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
-    <table class="table table-responsive table-striped">
-        <div ng-show="vm.isBusy">
-            <span><i class="fa fa-circle-o-notch fa-spin" ></i> Loading...</span>
-        </div>
-        <tr ng-repeat="book in vm.myProfile.books">
-            <td>{{book.name}}</td>
-            <td> by {{book.author}} </td>
-        </tr>
-    </table>
+    <div class="col-md-offset1 col-md-7">
+        <h2>My Books:</h2>
+        <span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+        <table class="table table-responsive table-striped">
+            <div ng-show="vm.isBusy">
+                <span><i class="fa fa-circle-o-notch fa-spin" ></i> Loading...</span>
+            </div>
+            <tr ng-repeat="book in vm.books" class="row" ng-mouseover="hoverEdit = true" ng-mouseleave="hoverEdit = false">
+                <td class="col-md-6">{{book.name}}</td>
+                <td class="col-md-5"><span class="text-primary">{{book.author}}</span> </td>
+                <td class="col-md-1">
+                    <span ng-show="hoverEdit" class="text-right">
+                        <a  data-id="{{book.id}}"
+                        data-title="{{book.name}}"
+                        data-author="{{book.author}}" 
+                            data-toggle="modal" 
+                            data-target="#bookEdit" 
+                            class="editLink">
+                            
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a ng-click="vm.remove(book)"><i class="fa fa-trash"></i></a>
+                    </span>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-offset1 col-md-3">
+        <form name="newBookForm" novalidate class="form-horizontal" ng-submit="vm.addBook()">
+            <div class="form-group">
+                <label>Title</label>
+                <input class="form-control" type="text" id="title" name="title" ng-model="vm.newBook.name" required/>
+                <span class="text-warning" ng-show="newBookForm.title.$error.required">Title is required</span>
+            </div>
+            <div class="form-group">
+                <label>Author</label>
+                <input class="form-control" type="text" id="author" name="author" ng-model="vm.newBook.author" required/>
+                <span class="text-warning" ng-show="newBookForm.author.$error.required">Author is required</span>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary btn-sm" ng-disabled="newBookForm.$invalid" type="submit" value="Add Book" />
+            </div>
+        </form>
+    </div>
+
 </div>
-<div class="col-md-offset1 col-md-3">
-    <form name="newBookForm" novalidate class="form-horizontal" ng-submit="vm.addBook()">
-        <div class="form-group">
-            <label>Title</label>
-            <input class="form-control" type="text" id="title" name="title" ng-model="vm.newBook.title" required/>
-            <span class="text-warning" ng-show="newBookForm.title.$error.required">Title is required</span>  
+
+<!-- Modal content-->
+<div class="modal" id="bookEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Book:</h4>
+            </div>
+            <div class="modal-body">
+                <form  ng-app id="editBookForm" name="editBookForm" class="form-horizontal" submit="editbook()">
+                    <input hidden id="idEdit" name="id"/>
+                    <div class="form-group">
+                        <label>Title :</label>
+                        <input class="form-control" type="text" id="titleEdit" name="titleEdit" ng-model="editBookForm.titleEdit" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Author :</label>
+                        <input class="form-control" type="text" id="authorEdit" name="authorEdit" ng-model="editBookForm.authorEdit" required/>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary btn-sm"  type="submit" value="Edit" ng-disabled="editBookForm.$invalid" />
+                        <input class="btn btn-primary btn-sm" type="button" value="Cancel"/>
+                    </div>
+                    <span class="text text-warning" ng-show="editBookForm.$invalid">Both fields are required</span>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Author</label>
-            <input class="form-control" type="text" id="author" name="author" ng-model="vm.newBook.author" required/>
-            <span class="text-warning" ng-show="newBookForm.author.$error.required">Author is required</span>  
-        </div>
-        <div class="form-group">
-            <input class="btn btn-primary btn-sm" ng-disabled="newBookForm.$invalid" type="submit" value="Add Book"/>
-        </div>
-    </form>
-</div>
+    </div>
 </div>

@@ -10,7 +10,7 @@ namespace Sharebook.Models
         [Required]
         public string Author { get; set; }
         [Key]
-        public int ID {get;set;}
+        public int Id {get;set;}
         
     }
     

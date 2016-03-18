@@ -65,10 +65,22 @@ namespace Sharebook.Models
             return city;
             
         }
+        
+          public Book GetBook(int bookId)
+        {
+            return _context.Books.Where(bk=>bk.Id == bookId).FirstOrDefault();
+        }
+        
 
         public bool SaveAll()
         {
             return _context.SaveChanges() > 0;
+        }
+
+        public void deleteBook(int id)
+        {
+            _context.Books.Remove(GetBook(id));
+            
         }
     }
 }

@@ -155,7 +155,7 @@ namespace Sharebook.Migrations
 
             modelBuilder.Entity("Sharebook.Models.Book", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ApplicationUserId");
@@ -166,7 +166,7 @@ namespace Sharebook.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("Sharebook.Models.City", b =>

@@ -24,24 +24,64 @@ namespace Sharebook.Controllers
             _repository = repository;
         }
         [HttpGet("")]
-        public JsonResult Get(){
+        public JsonResult GetMyBooks(){
             
-            var currentUserBooks  = _repository.GetUserBooks(User.Identity.Name);
+            IEnumerable<Book> currentUserBooks  = _repository.GetUserBooks(User.Identity.Name)?.Books;
             
-            return Json(Mapper.Map<UserBooksViewModel>(currentUserBooks));
+            return Json(Mapper.Map<IEnumerable<BookViewModel>>(currentUserBooks));
         }
         
         [HttpPost("")]
-        public JsonResult Post([FromBody] BookViewModel newBook){
+        public JsonResult AddNewBook([FromBody] BookViewModel newBook){
             
             ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
             var book = Mapper.Map<Book>(newBook);
             currentUser?.Books.Add(book);
+            
             if(_repository.SaveAll()){
                 Response.StatusCode = (int) HttpStatusCode.Created;
                 return Json(Mapper.Map<BookViewModel>(book));
+            }else{
+                Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                return Json(null);
             }
-            return Json(null);
+        }
+        
+         [HttpPost("{bookId}")]
+        public JsonResult EditBook(BookViewModel newBook){
+            
+            ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
+            var book = _repository.GetBook(Mapper.Map<Book>(newBook).Id);
+            if(book != null){
+                book.Author = newBook.Author;
+                book.Name = newBook.Name;
+            }
+            
+            
+            if(_repository.SaveAll()){
+                Response.StatusCode = (int) HttpStatusCode.OK;
+                return Json(Mapper.Map<BookViewModel>(book));
+            }else{
+                Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                return Json(null);
+            }
+        }
+        
+        [HttpDelete("{bookId}")]
+        public JsonResult DeleteBook(string bookId){
+            int id;
+            if(int.TryParse(bookId, out id)){
+                _repository.deleteBook(id);
+                if(_repository.SaveAll()){
+                    Response.StatusCode = (int) HttpStatusCode.Created;
+                    return(Json(new {success = "true", errorMessage = ""}));
+                }else{
+                    Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                    return(Json(new {success = "false", errorMessage = "book could not be removed from database"}));
+                }
+            }
+            return(Json(new {success = "false", errorMessage = "bookId format not available : "+bookId}));
+            
         }
     }
 }

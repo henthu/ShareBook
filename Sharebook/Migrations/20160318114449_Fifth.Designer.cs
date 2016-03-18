@@ -8,8 +8,8 @@ using Sharebook.Models;
 namespace Sharebook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160316141035_Fourth")]
-    partial class Fourth
+    [Migration("20160318114449_Fifth")]
+    partial class Fifth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,7 +156,7 @@ namespace Sharebook.Migrations
 
             modelBuilder.Entity("Sharebook.Models.Book", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ApplicationUserId");
@@ -167,7 +167,7 @@ namespace Sharebook.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("Sharebook.Models.City", b =>

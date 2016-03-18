@@ -12,5 +12,7 @@ namespace Sharebook.Models
         IEnumerable<City> GetCities(string CountryCode);
         City GetCityById(string id);
         bool SaveAll();
+        Book GetBook(int id);
+        void deleteBook(int id);
     }
 }

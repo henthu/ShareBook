@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace Sharebook.Migrations
 {
-    public partial class Fourth : Migration
+    public partial class Fifth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,7 +154,7 @@ namespace Sharebook.Migrations
                 name: "Book",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     Author = table.Column<string>(nullable: false),
@@ -162,7 +162,7 @@ namespace Sharebook.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book", x => x.ID);
+                    table.PrimaryKey("PK_Book", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Book_ApplicationUser_ApplicationUserId",
                         column: x => x.ApplicationUserId,
