@@ -8,8 +8,8 @@ using Sharebook.Models;
 namespace Sharebook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160319091429_Sixth")]
-    partial class Sixth
+    [Migration("20160319112755_Seventh")]
+    partial class Seventh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,8 +140,6 @@ namespace Sharebook.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("UserId");
-
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
@@ -196,7 +194,7 @@ namespace Sharebook.Migrations
                     b.Property<string>("Content")
                         .IsRequired();
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
                 });
@@ -255,8 +253,7 @@ namespace Sharebook.Migrations
 
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .HasPrincipalKey("UserId");
+                        .HasForeignKey("UserName");
                 });
         }
     }

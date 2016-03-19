@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace Sharebook.Migrations
 {
-    public partial class Sixth : Migration
+    public partial class Seventh : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -76,13 +76,11 @@ namespace Sharebook.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
                     UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
-                    table.UniqueConstraint("AK_ApplicationUser_UserId", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_ApplicationUser_City_CityId",
                         column: x => x.CityId,
@@ -181,7 +179,7 @@ namespace Sharebook.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BookId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,11 +191,11 @@ namespace Sharebook.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_ApplicationUser_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comment_ApplicationUser_UserName",
+                        column: x => x.UserName,
                         principalTable: "AspNetUsers",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

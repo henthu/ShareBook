@@ -10,12 +10,12 @@ namespace Sharebook.Models
         [Required]
         public string Content { get; set; }
         
-        public int UserId { get; set; }
+        public string UserName{ get; set; }
         public int BookId { get; set; }
         [ForeignKey("BookId")]
         public Book Book { get; set; }
         
-        [ForeignKey("UserId")]
+        [ForeignKey("UserName")]
         public ApplicationUser User { get; set; }
     }
 }

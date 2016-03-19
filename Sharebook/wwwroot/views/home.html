@@ -2,21 +2,23 @@
     <div class="col-md-offset1 col-md-7">
         <h2>My Books:</h2>
         <span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+        <div ng-show="vm.isBusy">
+            <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
+        </div>
         <table class="table table-responsive table-striped">
-            <div ng-show="vm.isBusy">
-                <span><i class="fa fa-circle-o-notch fa-spin" ></i> Loading...</span>
-            </div>
             <tr ng-repeat="book in vm.books" class="row" ng-mouseover="hoverEdit = true" ng-mouseleave="hoverEdit = false">
-                <td class="col-md-6">{{book.name}}</td>
-                <td class="col-md-5"><span class="text-primary">{{book.author}}</span> </td>
+                <td class="col-md-4">{{book.name}}</td>
+                <td class="col-md-4"><span class="text-primary">{{book.author}}</span> </td>
+                <td class="col-md-3"><span class="text-success">{{book.genre}}</span> </td>
                 <td class="col-md-1">
                     <span ng-show="hoverEdit" class="text-right">
                         <a  data-id="{{book.id}}"
                         data-title="{{book.name}}"
                         data-author="{{book.author}}" 
-                            data-toggle="modal" 
-                            data-target="#bookEdit" 
-                            class="editLink">
+                        data-genre="{{book.genre}}"
+                        data-toggle="modal" 
+                        data-target="#bookEdit" 
+                        class="editLink">
                             
                             <i class="fa fa-pencil"></i>
                         </a>
@@ -40,7 +42,7 @@
                 <span class="text-warning" ng-show="newBookForm.author.$error.required">Author is required</span>
             </div>
             <div class="form-group">
-                <lable>Genre</lable>
+                <label>Genre</label>
                 <select class="form-control" id="genre" name="genre" ng-model="vm.newBook.genre">
                     <option value="Other">Other</option>
                     <option value="Drama">Drama</option>
@@ -101,8 +103,8 @@
                         <label>Author :</label>
                         <input class="form-control" type="text" id="authorEdit" name="authorEdit" ng-model="editBookForm.authorEdit" required/>
                     </div>
-                    <div>
-                        <lable>Genre</lable>
+                    <div class="form-group">
+                        <label>Genre</label>
                         <select class="form-control" id="genreEdit" name="genreEdit" ng-model="editBookForm.genreEdit">
                             <option value="Other">Other</option>
                             <option value="Drama">Drama</option>
@@ -138,7 +140,6 @@
                     </div>
                     <div class="form-group">
                         <input class="btn btn-primary btn-sm"  type="submit" value="Edit" ng-disabled="editBookForm.$invalid" />
-                        <input class="btn btn-primary btn-sm" type="button" value="Cancel"/>
                     </div>
                     <span class="text text-warning" ng-show="editBookForm.$invalid">Both fields are required</span>
                 </form>

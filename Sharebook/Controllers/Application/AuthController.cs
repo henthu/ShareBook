@@ -6,6 +6,7 @@ using Sharebook.ViewModels;
 using AutoMapper;
 using System.Linq;
 using System.Security.Claims;
+using System;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -75,7 +76,9 @@ namespace Sharebook.Controllers.Application
                 ApplicationUser newUser = Mapper.Map<ApplicationUser>(vm);
                 
                 newUser.City = _repository.GetCityById(vm.City);
-                var result = await _userManager.CreateAsync(newUser, vm.Password);
+                try {
+                    var result = await _userManager.CreateAsync(newUser, vm.Password);
+               
                 if (result.Succeeded)
                 {
                     await _signinManager.SignInAsync(newUser, false);
@@ -90,6 +93,11 @@ namespace Sharebook.Controllers.Application
                     }else{
                         ModelState.AddModelError("", "could not register user");
                     }
+                }
+                }
+                catch (Exception e)
+                {
+
                 }
 
             }
