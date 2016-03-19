@@ -1,0 +1,39 @@
+<span class="text text-danger text-centre">{{vm.errorMessage}}</span>
+<div class="row">
+    <div class=" well col-md-offset1 col-lg-offset1 col-md-7 col-lg-7">
+        <h2>My Books:</h2>
+        
+        <div ng-show="vm.isBusy">
+            <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
+        </div>
+        <table class="table table-responsive table-striped">
+            <tr ng-repeat="book in vm.userBooks.books" class="row" ng-click=";vm.selectedBook = book.id; vm.showComments(book)">
+                <td class="col-md-4">{{book.name}}</td>
+                <td class="col-md-4"><span class="text-primary">{{book.author}}</span> </td>
+                <td class="col-md-3"><span class="text-success">{{book.genre}}</span> </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-offset1 col-lg-offset1 col-md-3 col-lg-3">
+        <div class="well">
+            <form name="newCommentForm" class="form-horizontal" ng-submit="vm.addComment()">
+                <div class="form-group">
+                    <label>Add Comment</label>
+                    <textarea class="form-control" name="content" id="content" cols="250" rows="3" ng-model="vm.newComment.content" required>
+                        
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-md btn-success" type="submit" ng-disabled="newCommentForm.$invalid" value="Go"/>
+                </div>
+            </form>
+        </div>
+        <div class="well" ng-repeat="comment in vm.bookComments">
+            <div class="text">
+                {{comment.content}}
+            </div>
+            <span class="text text-right">by {{comment.userName}} at {{comment.createdAt}}</span>
+        </div>
+    </div>
+
+</div>

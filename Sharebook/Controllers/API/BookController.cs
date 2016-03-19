@@ -83,5 +83,48 @@ namespace Sharebook.Controllers
             return(Json(new {success = "false", errorMessage = "bookId format not available : "+bookId}));
             
         }
+        
+        [HttpGet("{bookId}/comment")]
+        public JsonResult AddComment(string bookId,CommentViewModel newComment){
+            int id;
+            ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
+            
+            if(int.TryParse(bookId, out id)){
+                Comment comment = new Comment();
+                comment.Content = newComment.Content;
+                comment.BookId = id;
+                comment.CreatedAt = DateTime.Now;
+                comment.UserName = User.Identity.Name;
+                
+                Book book = _repository.GetBook(id);
+                
+                currentUser.Comments.Add(comment);
+                book.Comments.Add(comment);
+                
+                if(_repository.SaveAll()){
+                    Response.StatusCode = (int)HttpStatusCode.Created;
+                    return Json(Mapper.Map<CommentViewModel>(comment));
+                }else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json(null);
+                }
+                
+            }
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return Json(null);
+        }
+        
+        [HttpGet("{bookId}/comments")]
+        public JsonResult GetComment(string bookId){
+            int id;
+            
+            if(int.TryParse(bookId, out id)){
+                Book book = _repository.GetBook(id);
+                return(Json(Mapper.Map<IEnumerable<CommentViewModel>>(_repository.getBookComments(id))));
+            }
+            
+            return Json(null);
+        }
     }
 }

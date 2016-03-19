@@ -8,12 +8,14 @@ using Sharebook.Models;
 using Sharebook.ViewModels;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Sharebook.Controllers.API
 {
     [Route("/api/users")]
+    [Authorize]
     public class UserController : Controller
     {
         private ISharebookRepository _repository;
@@ -29,12 +31,14 @@ namespace Sharebook.Controllers.API
             _signInManager = signinManager;
         }
         // GET: api/users
-        [HttpGet("/{username}/books")]
+        [HttpGet("{userName}")]
          public JsonResult GetUserBooks(string userName)
         {
             ApplicationUser userWithBooks =  _repository.GetUserBooks(userName);
             return Json(Mapper.Map<UserBooksViewModel>(userWithBooks));
         }
+        
+       
         
     }
 }

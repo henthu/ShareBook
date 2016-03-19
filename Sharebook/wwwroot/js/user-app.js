@@ -10,6 +10,11 @@
                 controller:"homeController",
                 controllerAs:"vm",
                 templateUrl:"/views/home.html"
+            })
+            .when("/:userName/books",{
+                controller:"userBooksController",
+                controllerAs:"vm",
+                templateUrl:"/views/userBooks.html"
             });
             
             $routeProvider.otherwise({

@@ -14,7 +14,7 @@ namespace Sharebook.Models
         public string Author { get; set; }
         
         public string Genre { get; set; }
-        public IEnumerable<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
     }
 

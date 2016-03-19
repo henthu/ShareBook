@@ -82,5 +82,16 @@ namespace Sharebook.Models
             _context.Books.Remove(GetBook(id));
             
         }
+
+        public ICollection<Comment> getBookComments(int id)
+        {
+            return _context
+                    .Books
+                    .Where(book => book.Id == id)
+                    .FirstOrDefault()
+                    ?.Comments
+                    .OrderBy(comment => comment.CreatedAt)
+                    .ToList();
+        }
     }
 }
