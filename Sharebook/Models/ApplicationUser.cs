@@ -13,5 +13,6 @@ namespace Sharebook.Models
         public ICollection<Book> Books { get; set; }
         public City City  { get; set; }
         public string Country { get; set; }
+        public ICollection<Comment> comments{get;set;}
     }
 }

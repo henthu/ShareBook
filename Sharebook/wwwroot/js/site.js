@@ -5,17 +5,20 @@
             var myBookId = $(this).data('id');
             var myTitle = $(this).data('title');
             var myAuthor = $(this).data('author');
+            var myGenre = $(this).data('genre');
             
             $("#titleEdit").val(myTitle);
             $("#authorEdit").val(myAuthor);
             $("#idEdit").val(myBookId);
+            $("#genreEdit").val(myGenre);
         });
         
     $(document).on("submit","#editBookForm",function() {
        
        var editedBook = {id: $("#idEdit").val(),
                          name: $("#titleEdit").val(),
-                         author: $("#authorEdit").val()};
+                         author: $("#authorEdit").val(),
+                        genre:$("#genreEdit").val()};
        $.ajax({
            url:"/api/books/"+$("#idEdit").val(),
            type : "POST",

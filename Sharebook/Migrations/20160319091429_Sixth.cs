@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace Sharebook.Migrations
 {
-    public partial class Fifth : Migration
+    public partial class Sixth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -76,11 +76,13 @@ namespace Sharebook.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
                     UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                    table.UniqueConstraint("AK_ApplicationUser_UserId", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_ApplicationUser_City_CityId",
                         column: x => x.CityId,
@@ -158,6 +160,7 @@ namespace Sharebook.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     Author = table.Column<string>(nullable: false),
+                    Genre = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -169,6 +172,32 @@ namespace Sharebook.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BookId = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_Book_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Book",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comment_ApplicationUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -190,8 +219,9 @@ namespace Sharebook.Migrations
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
-            migrationBuilder.DropTable("Book");
+            migrationBuilder.DropTable("Comment");
             migrationBuilder.DropTable("AspNetRoles");
+            migrationBuilder.DropTable("Book");
             migrationBuilder.DropTable("AspNetUsers");
             migrationBuilder.DropTable("City");
         }

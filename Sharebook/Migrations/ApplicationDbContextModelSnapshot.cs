@@ -139,6 +139,8 @@ namespace Sharebook.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int>("UserId");
+
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
@@ -163,6 +165,8 @@ namespace Sharebook.Migrations
                     b.Property<string>("Author")
                         .IsRequired();
 
+                    b.Property<string>("Genre");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -177,6 +181,21 @@ namespace Sharebook.Migrations
                     b.Property<string>("CountryCode");
 
                     b.Property<string>("Name");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("Sharebook.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BookId");
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
                 });
@@ -225,6 +244,18 @@ namespace Sharebook.Migrations
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("Sharebook.Models.Comment", b =>
+                {
+                    b.HasOne("Sharebook.Models.Book")
+                        .WithMany()
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("Sharebook.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId");
                 });
         }
     }
