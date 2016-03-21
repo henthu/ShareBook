@@ -195,7 +195,11 @@ namespace Sharebook.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("UserId");
+
                     b.Property<string>("UserName");
+
+                    b.Property<bool>("isRead");
 
                     b.HasKey("Id");
                 });
@@ -254,7 +258,7 @@ namespace Sharebook.Migrations
 
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserName");
+                        .HasForeignKey("UserId");
                 });
         }
     }

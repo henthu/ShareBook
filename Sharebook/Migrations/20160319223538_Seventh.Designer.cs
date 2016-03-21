@@ -8,8 +8,8 @@ using Sharebook.Models;
 namespace Sharebook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160319180639_Sixth")]
-    partial class Sixth
+    [Migration("20160319223538_Seventh")]
+    partial class Seventh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,7 +196,11 @@ namespace Sharebook.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("UserId");
+
                     b.Property<string>("UserName");
+
+                    b.Property<bool>("isRead");
 
                     b.HasKey("Id");
                 });
@@ -255,7 +259,7 @@ namespace Sharebook.Migrations
 
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserName");
+                        .HasForeignKey("UserId");
                 });
         }
     }

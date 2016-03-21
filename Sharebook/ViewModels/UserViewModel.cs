@@ -1,4 +1,3 @@
-using Sharebook.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Sharebook.ViewModels
 {
-    class UserBooksViewModel
+    public class UserViewModel
     {
-        public string UserName { get; set; }
-        public IEnumerable<BookViewModel> Books { get; set; }
+        public string FirstName { get; set; }
+        public ICollection<BookViewModel> Books { get; set; }
+
     }
 }

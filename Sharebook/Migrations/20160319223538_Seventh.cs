@@ -179,7 +179,10 @@ namespace Sharebook.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BookId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true)
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    isRead = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,8 +194,8 @@ namespace Sharebook.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_ApplicationUser_UserName",
-                        column: x => x.UserName,
+                        name: "FK_Comment_ApplicationUser_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);

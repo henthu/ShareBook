@@ -1,21 +1,25 @@
 <span class="text text-danger text-centre">{{vm.errorMessage}}</span>
 <div class="row">
-    <div class=" well col-md-offset1 col-lg-offset1 col-md-7 col-lg-7">
-        <h2>My Books:</h2>
+    <div class="well col-md-offset1 col-lg-offset1 col-md-7 col-lg-7">
+        <h2>{{vm.userName}}'s Books:</h2>
         
         <div ng-show="vm.isBusy">
             <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
         </div>
-        <table class="table table-responsive table-striped">
-            <tr ng-repeat="book in vm.userBooks.books" class="row" ng-click=";vm.selectedBook = book.id; vm.showComments(book)">
-                <td class="col-md-4">{{book.name}}</td>
-                <td class="col-md-4"><span class="text-primary">{{book.author}}</span> </td>
-                <td class="col-md-3"><span class="text-success">{{book.genre}}</span> </td>
-            </tr>
+        <table class="table table-responsive table-striped  table-hover">
+            <tbody>
+                <tr ng-repeat="book in vm.userBooks.books"
+                    ng-click=";vm.selectedBook = book.id; vm.showComments(book)"
+                    ng-class="{'active': book.id == vm.selectedBook}">
+                    <td class="col-md-4">{{book.name}}</td>
+                    <td class="col-md-4"><span class="text-primary">{{book.author}}</span> </td>
+                    <td class="col-md-3"><span class="text-success">{{book.genre}}</span> </td>
+                </tr>
+            </tbody>
         </table>
     </div>
-    <div class="col-md-offset1 col-lg-offset1 col-md-3 col-lg-3">
-        <div class="well">
+    <div class="col-md-offset1 col-lg-offset1 col-md-3 col-lg-3" ng-show="vm.selectedBook">
+        <div class="well well-lg">
             <form name="newCommentForm" class="form-horizontal" ng-submit="vm.addComment()">
                 <div class="form-group">
                     <label>Add Comment</label>
@@ -23,7 +27,7 @@
                         
                     </textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group text-right">
                     <input class="btn btn-md btn-success" type="submit" ng-disabled="newCommentForm.$invalid" value="Go"/>
                 </div>
             </form>
@@ -32,7 +36,8 @@
             <div class="text">
                 {{comment.content}}
             </div>
-            <span class="text text-right">by {{comment.userName}} at {{comment.createdAt}}</span>
+
+            <div class="text text-right small text-info">by <a ng-href="#/{{comment.userName}}/books">{{comment.userName}}</a> at {{comment.createdAt | date:'hh:mm on MMM, dd yyyy'}}</div>
         </div>
     </div>
 

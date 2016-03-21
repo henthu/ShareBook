@@ -84,8 +84,8 @@ namespace Sharebook.Controllers
             
         }
         
-        [HttpGet("{bookId}/comment")]
-        public JsonResult AddComment(string bookId,CommentViewModel newComment){
+        [HttpPost("{bookId}/comment")]
+        public JsonResult AddComment(string bookId,[FromBody] CommentViewModel newComment){
             int id;
             ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
             
@@ -94,11 +94,18 @@ namespace Sharebook.Controllers
                 comment.Content = newComment.Content;
                 comment.BookId = id;
                 comment.CreatedAt = DateTime.Now;
-                comment.UserName = User.Identity.Name;
+                comment.UserName = currentUser.UserName;
                 
                 Book book = _repository.GetBook(id);
-                
+                if(currentUser.Comments == null)
+                {
+                    currentUser.Comments = new List<Comment>();
+                }
                 currentUser.Comments.Add(comment);
+                if (book.Comments == null)
+                {
+                    book.Comments = new List<Comment>();
+                }
                 book.Comments.Add(comment);
                 
                 if(_repository.SaveAll()){
@@ -121,7 +128,8 @@ namespace Sharebook.Controllers
             
             if(int.TryParse(bookId, out id)){
                 Book book = _repository.GetBook(id);
-                return(Json(Mapper.Map<IEnumerable<CommentViewModel>>(_repository.getBookComments(id))));
+                var comments = Mapper.Map<IEnumerable<CommentViewModel>>(_repository.getBookComments(id));
+                return (Json(comments));
             }
             
             return Json(null);

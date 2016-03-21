@@ -8,13 +8,14 @@
         vm = this;
         
         vm.errorMessage = "";
+        vm.userName = $routeParams.userName;
         vm.isBusy = true;
         vm.userBooks = {};
         vm.bookComments = [];
         vm.newComment={};
         vm.selectedBook = "";
         
-        $http.get("/api/users/"+$routeParams.userName)
+        $http.get("/api/users/" + vm.userName)
         .then(function (Response) {
             //success
             vm.userBooks = Response.data;
@@ -35,6 +36,7 @@
             .then(function (Response) {
                 //success
                 vm.bookComments = Response.data;
+                
             },function (error) {
                 //failure
                 vm.errorMessage = "Could not get Comments : "+JSON.stringify(error);
@@ -50,7 +52,8 @@
             $http.post("/api/books/"+vm.selectedBook+"/comment",vm.newComment)
             .then(function (Response) {
                 //success
-                vm.bookComments.splice(0,0,Response.data);
+                vm.bookComments.splice(0, 0, Response.data);
+                vm.newComment = {};
             },function (error) {
                 //failure
                 vm.errorMessage = "Failed to create a comment"+JSON.stringify(error);

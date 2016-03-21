@@ -34,6 +34,7 @@ namespace Sharebook.Models
         {
             var userWithBooks = _context.Users
                                 .Include(user => user.Books)
+                                .ThenInclude(book => book.Comments)
                                 .Where(user => user.UserName == userName)
                                 .FirstOrDefault();
 
@@ -85,13 +86,13 @@ namespace Sharebook.Models
 
         public ICollection<Comment> getBookComments(int id)
         {
-            return _context
-                    .Books
-                    .Where(book => book.Id == id)
+            return _context.Books.Where(book => book.Id == id)
+                    .Include(x=>x.Comments)
                     .FirstOrDefault()
                     ?.Comments
-                    .OrderBy(comment => comment.CreatedAt)
-                    .ToList();
+                    ?.OrderByDescending(comment => comment.CreatedAt)
+                    ?.ToList();
+                             
         }
     }
 }

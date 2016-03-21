@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Sharebook.ViewModels
 {
     public class BookViewModel
@@ -6,5 +8,6 @@ namespace Sharebook.ViewModels
         public string Name {get;set;}
         public string Author {get;set;}
         public string Genre{get;set;}
+        public ICollection<CommentViewModel> Comments { get; set; }
     }
 }

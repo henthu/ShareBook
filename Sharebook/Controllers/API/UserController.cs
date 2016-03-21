@@ -37,8 +37,21 @@ namespace Sharebook.Controllers.API
             ApplicationUser userWithBooks =  _repository.GetUserBooks(userName);
             return Json(Mapper.Map<UserBooksViewModel>(userWithBooks));
         }
-        
-       
-        
+
+        [HttpGet("")]
+        public JsonResult GetMyBooks()
+        {
+            try {
+                ApplicationUser userWithBooks = _repository.GetUserBooks(User.Identity.Name);
+                return Json(Mapper.Map<UserViewModel>(userWithBooks));
+            } catch(Exception e)
+            {
+
+            }
+            return null;
+        }
+
+
+
     }
 }

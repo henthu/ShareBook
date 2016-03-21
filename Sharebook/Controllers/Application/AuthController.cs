@@ -41,24 +41,30 @@ namespace Sharebook.Controllers.Application
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel vm, string returnUrl)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _signinManager.PasswordSignInAsync(vm.UserName, vm.Password, true, false);
-                if (result.Succeeded)
+            try {
+                if (ModelState.IsValid)
                 {
-                    if (string.IsNullOrWhiteSpace(returnUrl))
+                    var result = await _signinManager.PasswordSignInAsync(vm.UserName, vm.Password, true, false);
+                    if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        if (string.IsNullOrWhiteSpace(returnUrl))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            return Redirect(returnUrl);
+                        }
                     }
                     else
                     {
-                        return Redirect(returnUrl);
+                        ModelState.AddModelError("", "UserName or Password incorrect");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "UserName or Password incorrect");
-                }
+            }
+            catch(Exception e)
+            {
+
             }
             return View();
         }

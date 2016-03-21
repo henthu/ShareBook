@@ -10,14 +10,16 @@ namespace Sharebook.Models
         public int Id { get; set; }
         [Required]
         public string Content { get; set; }
-        
-        public string UserName{ get; set; }
+        public string UserName { get; set; }
+        public bool isRead { get; set; }
+
+        public string UserId{ get; set; }
         public DateTime CreatedAt { get; set; }
         public int BookId { get; set; }
         [ForeignKey("BookId")]
         public Book Book { get; set; }
         
-        [ForeignKey("UserName")]
+        [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
     }
 }
