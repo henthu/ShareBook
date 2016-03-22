@@ -6,6 +6,10 @@ body{
     background-repeat: no-repeat;*/
     width: 100%;
 }
+
+.dropdown-menu{
+    width: 250px !important
+}
 /*
 img{
     border: none;

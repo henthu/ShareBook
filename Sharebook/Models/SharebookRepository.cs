@@ -71,6 +71,17 @@ namespace Sharebook.Models
         {
             return _context.Books.Where(bk=>bk.Id == bookId).FirstOrDefault();
         }
+          public Book GetBookWithComments(int bookId)
+        {
+            var book =_context.Books.
+                    Where(bk=>bk.Id == bookId)
+                    .Include(bk =>bk.Comments)
+                    .FirstOrDefault();
+            book.Comments = book.Comments.OrderByDescending(comment => comment.CreatedAt).ToList();        
+            
+            return book;
+                    
+        }
         
 
         public bool SaveAll()

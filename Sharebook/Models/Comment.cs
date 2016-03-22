@@ -11,7 +11,7 @@ namespace Sharebook.Models
         [Required]
         public string Content { get; set; }
         public string UserName { get; set; }
-        public bool isRead { get; set; }
+        public bool isRead { get; set; } = false;
 
         public string UserId{ get; set; }
         public DateTime CreatedAt { get; set; }

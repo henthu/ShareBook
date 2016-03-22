@@ -48,13 +48,14 @@ namespace Sharebook.Controllers
         }
         
          [HttpPost("{bookId}")]
-        public JsonResult EditBook(BookViewModel newBook){
+        public JsonResult EditBook([FromBody] BookViewModel newBook){
             
             ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
             var book = _repository.GetBook(Mapper.Map<Book>(newBook).Id);
             if(book != null){
                 book.Author = newBook.Author;
                 book.Name = newBook.Name;
+                book.Comments = Mapper.Map<ICollection<Comment>>(newBook.Comments);
             }
             
             
@@ -121,7 +122,18 @@ namespace Sharebook.Controllers
             Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             return Json(null);
         }
-        
+        [HttpGet("{bookId}")]
+        public JsonResult GetBookWithComments(string bookId){
+            int id;
+            
+            if(int.TryParse(bookId, out id)){
+                Book book = _repository.GetBookWithComments(id);
+                
+                return (Json(Mapper.Map<BookViewModel>(book)));
+            }
+            
+            return Json(null);
+        }
         [HttpGet("{bookId}/comments")]
         public JsonResult GetComment(string bookId){
             int id;
