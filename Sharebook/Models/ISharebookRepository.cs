@@ -16,5 +16,6 @@ namespace Sharebook.Models
         void deleteBook(int id);
         ICollection<Comment> getBookComments(int id);
         Book GetBookWithComments(int bookId);
+        string getBookOwner(int id);
     }
 }

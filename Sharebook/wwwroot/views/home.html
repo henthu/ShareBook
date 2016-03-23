@@ -7,7 +7,7 @@
         </div>
         <table class="table table-responsive table-striped">
             <tr ng-repeat="book in vm.books" class="row" ng-mouseover="hoverEdit = true" ng-mouseleave="hoverEdit = false">
-                <td class="col-md-4">{{book.name}}</td>
+                <td class="col-md-4"><a ng-href="#/books/{{book.id}}">{{book.name}}</a></td>
                 <td class="col-md-4"><span class="text-primary">{{book.author}}</span> </td>
                 <td class="col-md-3"><span class="text-success">{{book.genre}}</span> </td>
                 <td class="col-md-1">

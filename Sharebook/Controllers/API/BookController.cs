@@ -48,7 +48,7 @@ namespace Sharebook.Controllers
         }
         
          [HttpPost("{bookId}")]
-        public JsonResult EditBook([FromBody] BookViewModel newBook){
+        public JsonResult EditBook(BookViewModel newBook){
             
             ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
             var book = _repository.GetBook(Mapper.Map<Book>(newBook).Id);
@@ -91,13 +91,19 @@ namespace Sharebook.Controllers
             ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
             
             if(int.TryParse(bookId, out id)){
+                
+                Book book = _repository.GetBook(id);
+                
                 Comment comment = new Comment();
                 comment.Content = newComment.Content;
                 comment.BookId = id;
                 comment.CreatedAt = DateTime.Now;
                 comment.UserName = currentUser.UserName;
                 
-                Book book = _repository.GetBook(id);
+                if(currentUser.UserName == _repository.getBookOwner(book.Id)){
+                    comment.isRead = true;
+                }
+                
                 if(currentUser.Comments == null)
                 {
                     currentUser.Comments = new List<Comment>();

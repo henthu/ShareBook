@@ -105,5 +105,13 @@ namespace Sharebook.Models
                     ?.ToList();
                              
         }
+        public string getBookOwner(int id){
+            string userName = _context.Users
+                                .Where(user => user.Books.Any(book => book.Id == id))
+                                .FirstOrDefault()
+                                ?.UserName; 
+            
+            return userName;
+        }
     }
 }

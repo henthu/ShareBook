@@ -21,11 +21,9 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                              <li><a href="#" id=""></a></li>
-                            <li class="dropdown" >
+                            <li class="dropdown" id="newComment" >
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><i class="fa fa-comment text-success"></i></a>
-                                <ul class="dropdown-menu" role="menu" id="commentNotif">
-                                    <li>link</li>
-                                </ul>
+                                <ul class="dropdown-menu" role="menu" id="commentNotif"></ul>
                             </li>
                             <li class="dropdown" id="emptyComment">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comment-o text-success"></i></a>
@@ -33,7 +31,7 @@
                                     <li class="text text-center">no new Comments on my books</li>
                                 </ul>
                             </li>
-                            <li class="dropdown" id="newComment">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="userNav" role="button" aria-expanded="false">Actions <span class="caret"></span> </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a><i class="fa fa-user"></i> My Account</a> </li>
@@ -53,7 +51,9 @@
             </div>
         </div>
     </div>
+    
     <div class="row">
+        @if(User.Identity.IsAuthenticated){
         <div class="col-md-2">
             <div class="list-group">
                 <a class="list-group-item active" href="#/">
@@ -70,6 +70,7 @@
                 </a>
             </div>
         </div>
+        }
         <div id="wrapper" class="col-md-10">
 
             @RenderBody()
@@ -82,7 +83,9 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/js/loadUser.js"></script>
+    @if(User.Identity.IsAuthenticated){
+        <script src="~/js/loadUser.js"></script>
+    }
 </body>
 @RenderSection("Scripts", required: false)
 </html>     
