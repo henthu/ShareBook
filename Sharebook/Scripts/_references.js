@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="../gulpfile.js" />
+/// <reference path="../wwwroot/js/bookcontroller.js" />
 /// <reference path="../wwwroot/js/homeController.js" />
 /// <reference path="../wwwroot/js/loaduser.js" />
 /// <reference path="../wwwroot/js/register.js" />

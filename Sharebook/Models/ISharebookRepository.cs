@@ -17,5 +17,6 @@ namespace Sharebook.Models
         ICollection<Comment> getBookComments(int id);
         Book GetBookWithComments(int bookId);
         string getBookOwner(int id);
+        Comment getComment(int id);
     }
 }

@@ -48,14 +48,13 @@ namespace Sharebook.Controllers
         }
         
          [HttpPost("{bookId}")]
-        public JsonResult EditBook(BookViewModel newBook){
+        public JsonResult EditBook([FromBody]BookViewModel newBook){
             
             ApplicationUser currentUser = _repository.GetUserBooks(User.Identity.Name);
             var book = _repository.GetBook(Mapper.Map<Book>(newBook).Id);
             if(book != null){
                 book.Author = newBook.Author;
                 book.Name = newBook.Name;
-                book.Comments = Mapper.Map<ICollection<Comment>>(newBook.Comments);
             }
             
             

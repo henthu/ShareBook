@@ -22,7 +22,8 @@
        $.ajax({
            url:"/api/books/"+$("#idEdit").val(),
            type : "POST",
-           data : editedBook,
+           data : JSON.stringify(editedBook),
+           contentType: "application/json; charset=utf-8",
            success: function (data) {
                window.location.href = "/";
            },

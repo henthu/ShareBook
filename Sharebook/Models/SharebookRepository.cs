@@ -113,5 +113,10 @@ namespace Sharebook.Models
             
             return userName;
         }
+
+        public Comment getComment(int id)
+        {
+            return _context.Comments.Where(comment => comment.Id == id).FirstOrDefault();
+        }
     }
 }
