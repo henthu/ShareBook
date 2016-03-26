@@ -1,7 +1,7 @@
-<div id="Message-wrap" class="col-md-8">
-    <span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
-    <div >
-
+<div  class="col-md-8 Message-wrap">
+    <div><span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span></div>
+    <div class="Message-body">
+        
     </div>
     <div class ="well">
         <form name="newMessageForm" class="form-horizontal" ng-submit="vm.sendMessage()">

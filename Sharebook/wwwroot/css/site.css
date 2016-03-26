@@ -11,9 +11,16 @@ body{
     width: 250px !important
 }
 
-#Message-wrap{
-    padding:0;
+.Message-wrap{
+    height:300px;
 }
+
+.Message-body{
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+}
+
 /*
 img{
     border: none;
