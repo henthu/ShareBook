@@ -86,6 +86,7 @@ namespace Sharebook
                 config.CreateMap<BookViewModel,Book>().ReverseMap();
                 config.CreateMap<CommentViewModel,Comment>().ReverseMap();
                 config.CreateMap<UserViewModel, ApplicationUser>().ReverseMap();
+                config.CreateMap<MessageViewModel, Message>().ReverseMap();
             });
             app.UseMvc(routes =>
             {

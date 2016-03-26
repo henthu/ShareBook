@@ -21,6 +21,12 @@
                 controllerAs:"vm",
                 templateUrl:"/views/bookComments.html"
             }
+            )
+            .when("/messages/:userName",{
+                controller:"conversationController",
+                controllerAs:"vm",
+                templateUrl:"/views/conversation.html"   
+            }                
             );
             
             $routeProvider.otherwise({

@@ -18,5 +18,9 @@ namespace Sharebook.Models
         Book GetBookWithComments(int bookId);
         string getBookOwner(int id);
         Comment getComment(int id);
+        
+        void deleteMessage(int id);
+        ICollection<Message> getSentMessages(ApplicationUser sender);
+        ICollection<Message> getRecievedMessages(ApplicationUser reciever);
     }
 }

@@ -172,6 +172,34 @@ namespace Sharebook.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Content = table.Column<string>(nullable: false),
+                    RecieverId = table.Column<string>(nullable: false),
+                    SendDate = table.Column<DateTime>(nullable: false),
+                    SenderId = table.Column<string>(nullable: false),
+                    isRead = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Message_ApplicationUser_RecieverId",
+                        column: x => x.RecieverId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Message_ApplicationUser_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+            migrationBuilder.CreateTable(
                 name: "Comment",
                 columns: table => new
                 {
@@ -221,6 +249,7 @@ namespace Sharebook.Migrations
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("Comment");
+            migrationBuilder.DropTable("Message");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("Book");
             migrationBuilder.DropTable("AspNetUsers");

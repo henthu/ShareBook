@@ -1,8 +1,6 @@
 using System;
 using System.Net;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Sharebook.Models;
 using AutoMapper;
@@ -147,6 +145,26 @@ namespace Sharebook.Controllers
                 Book book = _repository.GetBook(id);
                 var comments = Mapper.Map<IEnumerable<CommentViewModel>>(_repository.getBookComments(id));
                 return (Json(comments));
+            }
+            
+            return Json(null);
+        }
+         [HttpPost("{bookId}/comments")]
+        public JsonResult flagComments(string bookId){
+            int id;
+            
+            if(int.TryParse(bookId, out id)){
+                Book book = _repository.GetBook(id);
+                var comments = _repository.getBookComments(id);
+                foreach (var comment in comments)
+                {
+                    comment.isRead = true;
+                }
+                if(_repository.SaveAll()){
+                    return (Json(Mapper.Map<ICollection<CommentViewModel>>(comments)));
+                }else{
+                    return Json("could not save changes");
+                }
             }
             
             return Json(null);

@@ -118,5 +118,31 @@ namespace Sharebook.Models
         {
             return _context.Comments.Where(comment => comment.Id == id).FirstOrDefault();
         }
+
+
+        public void deleteMessage(int id)
+        {
+            Message messageToDelete = _context
+                                        .Messages
+                                        .Where(m => m.Id == id)
+                                        .FirstOrDefault();
+           if(messageToDelete != null){
+                _context.Messages.Remove(messageToDelete);
+           }
+        }
+
+        public ICollection<Message> getSentMessages(ApplicationUser sender)
+        {
+            return _context.Messages
+            .Where(m => m.Sender.UserName == sender.UserName)
+            .ToList();
+        }
+
+        public ICollection<Message> getRecievedMessages(ApplicationUser reciever)
+        {
+            return _context.Messages
+            .Where(m => m.Reciever.UserName == reciever.UserName)
+            .ToList();
+        }
     }
 }

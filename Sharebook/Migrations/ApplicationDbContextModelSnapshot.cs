@@ -204,6 +204,27 @@ namespace Sharebook.Migrations
                     b.HasKey("Id");
                 });
 
+            modelBuilder.Entity("Sharebook.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<string>("RecieverId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("SendDate");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired();
+
+                    b.Property<bool>("isRead");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -259,6 +280,17 @@ namespace Sharebook.Migrations
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Sharebook.Models.Message", b =>
+                {
+                    b.HasOne("Sharebook.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("RecieverId");
+
+                    b.HasOne("Sharebook.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
                 });
         }
     }

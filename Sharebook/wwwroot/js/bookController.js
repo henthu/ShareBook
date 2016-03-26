@@ -31,7 +31,7 @@
                 vm.isBusy = false;
                 if (vm.currentBook != {}) {
                     alert("currentBookId : " + JSON.stringify(vm.currentBook));
-                    $http.post("/api/books/" + vm.currentBook.id, vm.currentBook)
+                    $http.post("/api/books/" + vm.currentBook.id+"/comments", vm.currentBook.id)
                         .then(function(Response) {
                             //success
                             alert(JSON.stringify(Response.data));

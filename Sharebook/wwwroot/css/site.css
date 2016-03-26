@@ -10,6 +10,10 @@ body{
 .dropdown-menu{
     width: 250px !important
 }
+
+#Message-wrap{
+    padding:0;
+}
 /*
 img{
     border: none;
