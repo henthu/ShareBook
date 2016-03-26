@@ -20,7 +20,8 @@ namespace Sharebook.Models
         Comment getComment(int id);
         
         void deleteMessage(int id);
-        ICollection<Message> getSentMessages(ApplicationUser sender);
-        ICollection<Message> getRecievedMessages(ApplicationUser reciever);
+        ICollection<Message> getMessages(ApplicationUser reciever, ApplicationUser sender);
+        void AddMessage(Message newMessage);
+        ICollection<Message> getAllUserMessages(ApplicationUser currentUser);
     }
 }

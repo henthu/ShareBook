@@ -19,6 +19,7 @@
             .then(function(Response) {
                 //success
                 angular.copy(Response.data, vm.conversation);
+                alert(JSON.stringify(vm.conversation));
             }, function(error) {
                 //failure
                 vm.errorMessage = "could not get Data : " + JSON.stringify(error);
@@ -46,7 +47,7 @@
                     vm.conversation.push(Response.data);
                 }, function(error) {
                     //failure
-                    vm.errorMessage = "Failed to create a comment" + JSON.stringify(error);
+                    vm.errorMessage = "Failed to create a Message" + JSON.stringify(error);
                 })
                 .finally(function() {
                     vm.isBusy = false;

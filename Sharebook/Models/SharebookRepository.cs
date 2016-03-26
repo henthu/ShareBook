@@ -131,18 +131,22 @@ namespace Sharebook.Models
            }
         }
 
-        public ICollection<Message> getSentMessages(ApplicationUser sender)
+
+        public ICollection<Message> getMessages(ApplicationUser reciever,ApplicationUser sender)
         {
             return _context.Messages
-            .Where(m => m.Sender.UserName == sender.UserName)
+            .Where(m => m.Reciever.UserName == reciever.UserName && m.Sender.UserName == sender.UserName)
             .ToList();
         }
 
-        public ICollection<Message> getRecievedMessages(ApplicationUser reciever)
+        public void AddMessage(Message newMessage)
         {
-            return _context.Messages
-            .Where(m => m.Reciever.UserName == reciever.UserName)
-            .ToList();
+            _context.Messages.Add(newMessage);
+        }
+
+        public ICollection<Message> getAllUserMessages(ApplicationUser currentUser)
+        {
+            return _context.Messages.Where(m => m.Reciever.UserName == currentUser.UserName || m.Sender.UserName == currentUser.UserName).ToList();
         }
     }
 }

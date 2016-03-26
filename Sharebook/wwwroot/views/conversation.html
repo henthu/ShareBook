@@ -1,14 +1,20 @@
-<div  class="col-md-8 Message-wrap">
+<div class="col-md-8 Message-wrap">
     <div><span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span></div>
     <div class="Message-body">
-        
+
+        <div class="row" ng-repeat="message in vm.conversation">
+            <div class="well well-sm col-md-6" ng-class="col-md-offset6 : message.recieverUserName == vm.reciever">
+                <p>{{message.content}}</p>
+                <p class="small text text-right">{{message.sendDate | date:'hh:mm on MMM, dd yyyy'}}</p>
+            </div>
+            
+        </div>
+
     </div>
-    <div class ="well">
+    <div class="well">
         <form name="newMessageForm" class="form-horizontal" ng-submit="vm.sendMessage()">
             <div class="form-group">
-                <textarea style="resize: none;" class="form-control" name="content" id="content" ng-model="vm.newMessage.content" required>
-
-                </textarea>
+                <textarea style="resize: none;" class="form-control" name="content" id="content" ng-model="vm.newMessage.content" required></textarea>
             </div>
             <div class="form-group text-right">
                 <input class="btn btn-md btn-success" type="submit" ng-disabled="newMessageForm.$invalid" value="Send" />

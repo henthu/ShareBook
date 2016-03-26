@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
@@ -23,24 +24,27 @@ namespace Sharebook.Controllers.API
         public JsonResult GetConversation(string recieverName)
         {
             ApplicationUser currentUser = _repository.GetUserByName(User.Identity.Name);
-            var conversation = currentUser.SentMessages.Where(m=>m.Reciever.UserName == recieverName)
-                            ?.Concat(currentUser.RecievedMessages.Where(m=>m.Sender.UserName == recieverName))
-                            ?.OrderByDescending(m=>m.SendDate)
-                            ?.ToList();
-            foreach (var message in currentUser.RecievedMessages.Where(m => m.Sender.UserName == recieverName))
+            ApplicationUser reciever = _repository.GetUserByName(recieverName);
+            var Recievedconversation = _repository.getMessages(currentUser, reciever);
+            var SentConversation = _repository.getMessages(reciever,currentUser);
+
+            var conversation = Recievedconversation == null ? SentConversation : Recievedconversation.Concat(SentConversation);
+            if (currentUser.RecievedMessages != null)
             {
-                message.isRead =true;
+                foreach (var message in currentUser.RecievedMessages.Where(m => m.Sender.UserName == recieverName))
+                {
+                    message.isRead = true;
+                }
+                _repository.SaveAll();
             }
-            _repository.SaveAll();
-            
-            return Json(Mapper.Map<IEnumerable<MessageViewModel>>(conversation));
+            return Json(Mapper.Map<IEnumerable<MessageViewModel>>(conversation.OrderBy(m => m.SendDate)));
         }
         
-        [HttpGet("{unread}")]
+        [HttpGet("unread")]
         public JsonResult getCountUnread()
         {
             ApplicationUser currentUser = _repository.GetUserByName(User.Identity.Name);
-            var count = currentUser.RecievedMessages.Where(m=>m.isRead == false)?.Count();
+            var count = _repository.getAllUserMessages(currentUser).Where(m=>m.isRead == false)?.Count();
             
             return Json(count);
         }
@@ -51,11 +55,12 @@ namespace Sharebook.Controllers.API
             newMessage.Sender = currentUser;
             newMessage.Reciever = _repository.GetUserByName(message.RecieverUserName);
             newMessage.SendDate = DateTime.Now;
-            
-            _repository.getSentMessages(currentUser).Add(newMessage);
+
+            _repository.AddMessage(newMessage);
             
             if(_repository.SaveAll()){
-                return Json(newMessage);
+                Response.StatusCode = (int)HttpStatusCode.Created;
+                return Json(Mapper.Map<MessageViewModel>(newMessage));
             }
             
             return Json(null);
