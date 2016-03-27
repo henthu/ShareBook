@@ -144,9 +144,52 @@ namespace Sharebook.Models
             _context.Messages.Add(newMessage);
         }
 
-        public ICollection<Message> getAllUserMessages(ApplicationUser currentUser)
+        public ICollection<Message> getRecievedMessages(ApplicationUser currentUser)
         {
-            return _context.Messages.Where(m => m.Reciever.UserName == currentUser.UserName || m.Sender.UserName == currentUser.UserName).ToList();
+            return _context.Messages.Where(m => m.Reciever.UserName == currentUser.UserName).ToList();
+        }
+
+        public ICollection<ApplicationUser> getCorrespondants(ApplicationUser currentUser)
+        {
+            var correspondants = new List<ApplicationUser>();
+            var allMessages = getAllMessages(currentUser);
+            foreach (var message in allMessages)
+            {
+                if(message.Sender.UserName != currentUser.UserName){
+                    correspondants.Add(message.Sender);
+                }else
+                {
+                    correspondants.Add(message.Reciever);
+                }
+            }
+            
+            return correspondants?.Distinct().ToList();
+        }
+
+        private ICollection<Message> getAllMessages(ApplicationUser currentUser)
+        {
+             return _context.Messages
+            .Where(m => m.Reciever.UserName == currentUser.UserName || m.Sender.UserName == currentUser.UserName)
+            .ToList();
+        }
+
+        public DateTime getLastTalked(ApplicationUser currentUser, ApplicationUser correpondant)
+        {
+            return _context.Messages
+                .Where(m =>
+                    (m.Sender.UserName == currentUser.UserName && m.Reciever.UserName == correpondant.UserName) 
+                    || (m.Reciever.UserName == currentUser.UserName && m.Sender.UserName == correpondant.UserName)
+                )
+                .OrderByDescending(m=>m.SendDate)
+                .FirstOrDefault()
+                .SendDate;
+        }
+
+        public bool AreAllConversationsRead(ApplicationUser currentUser, ApplicationUser correpondant)
+        {
+            return _context.Messages
+                .Where(m =>(m.Reciever.UserName == currentUser.UserName && m.Sender.UserName == correpondant.UserName)
+                ).Any(m=>m.isRead == false);
         }
     }
 }

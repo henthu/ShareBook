@@ -21,7 +21,10 @@ namespace Sharebook.Models
         
         void deleteMessage(int id);
         ICollection<Message> getMessages(ApplicationUser reciever, ApplicationUser sender);
+        ICollection<ApplicationUser> getCorrespondants(ApplicationUser currentUser);
         void AddMessage(Message newMessage);
-        ICollection<Message> getAllUserMessages(ApplicationUser currentUser);
+        ICollection<Message> getRecievedMessages(ApplicationUser currentUser);
+        DateTime getLastTalked(ApplicationUser currentUser, ApplicationUser correpondant);
+        bool AreAllConversationsRead(ApplicationUser currentUser, ApplicationUser correpondant);
     }
 }

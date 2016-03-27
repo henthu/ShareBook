@@ -1,13 +1,14 @@
 <div class="col-md-8 Message-wrap">
     <div><span class="text text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</span></div>
-    <div class="Message-body">
+    <div class="Message-body" id="Message-body">
 
-        <div class="row" ng-repeat="message in vm.conversation">
-            <div class="well well-sm col-md-6" ng-class="col-md-offset6 : message.recieverUserName == vm.reciever">
-                <p>{{message.content}}</p>
-                <p class="small text text-right">{{message.sendDate | date:'hh:mm on MMM, dd yyyy'}}</p>
+        <div class="row" ng-repeat="message in vm.conversation" message-directive>
+            <div   ng-class="{'pull-right': vm.reciever == message.recieverUserName,'pull-left': vm.reciever != message.recieverUserName}">
+                    <div class="well">
+                        <h6 >{{message.content}}</h6>
+                        <p class="small"> {{message.sendDate | date:'hh:mm on MMM, dd yyyy'}}</p>
+                    </div>
             </div>
-            
         </div>
 
     </div>

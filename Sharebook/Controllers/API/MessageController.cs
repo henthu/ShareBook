@@ -20,6 +20,27 @@ namespace Sharebook.Controllers.API
             _repository = repository;
         }
         
+        
+        [HttpGet("All")]
+        public JsonResult GetConversations()
+        {
+            ApplicationUser currentUser = _repository.GetUserByName(User.Identity.Name);
+            
+            ICollection<ApplicationUser> correpondants = _repository.getCorrespondants(currentUser);
+            ICollection<ConversationViewModel> conversations = new List<ConversationViewModel>();
+            
+            foreach (var correpondant in correpondants)
+            {
+                conversations.Add(new ConversationViewModel(){
+                   Correspondant = correpondant.UserName,
+                   LastUpdated = _repository.getLastTalked(currentUser,correpondant),
+                   isRead = _repository.AreAllConversationsRead(currentUser,correpondant)
+                });
+            }
+           
+            return Json(conversations?.OrderByDescending(c=>c.LastUpdated));
+        }
+        
         [HttpGet("{recieverName}")]
         public JsonResult GetConversation(string recieverName)
         {
@@ -44,9 +65,9 @@ namespace Sharebook.Controllers.API
         public JsonResult getCountUnread()
         {
             ApplicationUser currentUser = _repository.GetUserByName(User.Identity.Name);
-            var count = _repository.getAllUserMessages(currentUser).Where(m=>m.isRead == false)?.Count();
+            var count = _repository.getRecievedMessages(currentUser).Where(m=>m.isRead == false)?.Count();
             
-            return Json(count);
+            return Json(new{count = count});
         }
         [HttpPost("{recieverName}")]
         public JsonResult SendMessage([FromBody]MessageViewModel message){

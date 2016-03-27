@@ -1,0 +1,12 @@
+<div>
+    <h3>My Conversations</h3>
+    <div class="list-group">
+        <a class="list-group-item" ng-repeat="conversation in vm.conversations" ng-href="#/messages/{{conversation.correspondant}}">
+            <h4 class="list-group-item-heading">
+                {{conversation.correspondant}}
+                 <span class="badge" ng-show="conversation.isRead"><i class="fa fa-circle"></i></span>
+            </h4>
+            <p class="list-group-item-text">Last exchange at {{conversation.lastUpdated  | date:'hh:mm on MMM, dd yyyy'}}</p>
+        </a>
+    </div>
+</div>

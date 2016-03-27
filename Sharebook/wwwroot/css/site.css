@@ -8,7 +8,7 @@ body{
 }
 
 .dropdown-menu{
-    width: 250px !important
+    width: 250px !important;
 }
 
 .Message-wrap{
@@ -17,9 +17,9 @@ body{
 
 .Message-body{
     padding: 10px;
-    height: 250px;
+    height: 350px;
     overflow-y: auto;
-    overflow-x:auto;
+    overflow-x: hidden;
 }
 
 /*

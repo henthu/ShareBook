@@ -1,11 +1,12 @@
 //bookController.js
 
 (function() {
+    "use strict";
     angular.module("user-app")
         .controller("bookController", bookController);
 
     function bookController($http, $routeParams) {
-        vm = this;
+        var vm = this;
 
         vm.errorMessage = "";
         vm.bookId = $routeParams.id;

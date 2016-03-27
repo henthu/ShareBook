@@ -3,7 +3,7 @@
 (function () {
     "use strict";
     
-    angular.module("user-app",["ngRoute"])
+    angular.module("user-app",["MyDirectives","ngRoute"])
         .config(function ($routeProvider) {
             $routeProvider.
             when("/",{
@@ -27,6 +27,13 @@
                 controllerAs:"vm",
                 templateUrl:"/views/conversation.html"   
             }                
+            )
+            .when("/messages",{
+                controller:"allMessagesController",
+                controllerAs:"vm",
+                templateUrl:"/views/allMessages.html"
+            }
+                
             );
             
             $routeProvider.otherwise({
