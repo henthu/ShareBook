@@ -21,7 +21,7 @@ namespace Sharebook.Controllers.API
         }
         
         
-        [HttpGet("All")]
+        [HttpGet("")]
         public JsonResult GetConversations()
         {
             ApplicationUser currentUser = _repository.GetUserByName(User.Identity.Name);
@@ -50,22 +50,15 @@ namespace Sharebook.Controllers.API
             var SentConversation = _repository.getMessages(reciever,currentUser);
 
             var conversation = Recievedconversation == null ? SentConversation : Recievedconversation.Concat(SentConversation);
-            if (currentUser.RecievedMessages != null)
-            {
-                foreach (var message in currentUser.RecievedMessages.Where(m => m.Sender.UserName == recieverName))
-                {
-                    message.isRead = true;
-                }
-                _repository.SaveAll();
-            }
-            return Json(Mapper.Map<IEnumerable<MessageViewModel>>(conversation.OrderBy(m => m.SendDate)));
+           
+            return Json(Mapper.Map<IEnumerable<MessageViewModel>>(conversation?.OrderBy(m => m.SendDate)));
         }
         
         [HttpGet("unread")]
         public JsonResult getCountUnread()
         {
             ApplicationUser currentUser = _repository.GetUserByName(User.Identity.Name);
-            var count = _repository.getRecievedMessages(currentUser).Where(m=>m.isRead == false)?.Count();
+            var count = _repository.getRecievedMessages(currentUser)?.Where(m=>m.isRead == false)?.Count();
             
             return Json(new{count = count});
         }
@@ -73,11 +66,12 @@ namespace Sharebook.Controllers.API
         public JsonResult SendMessage([FromBody]MessageViewModel message){
             var currentUser =_repository.GetUserByName(User.Identity.Name);
             Message newMessage = Mapper.Map<Message>(message);
-            newMessage.Sender = currentUser;
-            newMessage.Reciever = _repository.GetUserByName(message.RecieverUserName);
+
+            var sender = currentUser;
+            var reciever = _repository.GetUserByName(message.RecieverUserName);
             newMessage.SendDate = DateTime.Now;
 
-            _repository.AddMessage(newMessage);
+            _repository.AddMessage(newMessage,sender,reciever);
             
             if(_repository.SaveAll()){
                 Response.StatusCode = (int)HttpStatusCode.Created;

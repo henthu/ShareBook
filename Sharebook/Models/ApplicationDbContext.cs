@@ -13,7 +13,8 @@ namespace Sharebook.Models
         public DbSet<Book> Books { get; set; }
         public DbSet<City> Cities{get;set;}
          public DbSet<Comment> Comments { get; set; }
-         public DbSet<Message> Messages { get; set; }
+         public DbSet<RecievedMessage> RecievedMessages { get; set; }
+        public DbSet<SentMessage> SentMessages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

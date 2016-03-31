@@ -14,15 +14,12 @@ namespace Sharebook.Models
         {
             _context = context;
         }
-        public IEnumerable<Book> GetAllBooks()
-        {
-            return _context.Books;
-        }
+        
 
         public ApplicationUser GetUserByName(string userName)
         {
             return _context.Users
-                .Where(user => user.UserName == userName)
+                .Where(user => user.UserName.ToLower() == userName.ToLower())
                 .FirstOrDefault();
         }
         public IEnumerable<ApplicationUser> GetAllUsers()
@@ -40,7 +37,10 @@ namespace Sharebook.Models
 
             return userWithBooks;
         }
-
+        public IEnumerable<Book> GetAllBooks()
+        {
+            return _context.Books;
+        }
         public IEnumerable<City> GetCities(string countryCode)
         {
             IEnumerable<City> result = _context.Cities
@@ -120,76 +120,119 @@ namespace Sharebook.Models
         }
 
 
-        public void deleteMessage(int id)
+
+        public ICollection<RecievedMessage> getMessages(ApplicationUser reciever,ApplicationUser sender)
         {
-            Message messageToDelete = _context
-                                        .Messages
-                                        .Where(m => m.Id == id)
-                                        .FirstOrDefault();
-           if(messageToDelete != null){
-                _context.Messages.Remove(messageToDelete);
-           }
+            return _context.Users
+                .Where(user => user == reciever)
+                .Include(user => user.RecievedMessages)
+                .FirstOrDefault()
+                ?.RecievedMessages
+                ?.Where(r => r.Sender.UserName == sender.UserName)
+                .ToList();
         }
 
-
-        public ICollection<Message> getMessages(ApplicationUser reciever,ApplicationUser sender)
+        public void AddMessage(Message newMessage,ApplicationUser sender, ApplicationUser reciever)
         {
-            return _context.Messages
-            .Where(m => m.Reciever.UserName == reciever.UserName && m.Sender.UserName == sender.UserName)
-            .ToList();
+            SentMessage newSent = new SentMessage();
+            newSent.Content = newMessage.Content;
+            newSent.SendDate = newMessage.SendDate;
+            newSent.Reciever = reciever;
+
+            var senderUser = _context.Users
+                .Where(user => user.UserName == sender.UserName)
+                .Include(user => user.SentMessages)
+                .FirstOrDefault();
+
+            senderUser.SentMessages.Add(newSent);
+
+
+            RecievedMessage newRecieved = new RecievedMessage();
+            newRecieved.Content = newMessage.Content;
+            newRecieved.SendDate = newMessage.SendDate;
+            newRecieved.Sender = sender;
+            newRecieved.isRead = false;
+
+            var recieverUser = _context.Users
+                .Where(user => user.UserName == reciever.UserName)
+                .Include(user => user.RecievedMessages)
+                .FirstOrDefault();
+            recieverUser.RecievedMessages.Add(newRecieved);
         }
 
-        public void AddMessage(Message newMessage)
+        public ICollection<RecievedMessage> getRecievedMessages(ApplicationUser currentUser)
         {
-            _context.Messages.Add(newMessage);
-        }
-
-        public ICollection<Message> getRecievedMessages(ApplicationUser currentUser)
-        {
-            return _context.Messages.Where(m => m.Reciever.UserName == currentUser.UserName).ToList();
+            return 
+                _context.Users
+                .Where(user => user == currentUser)
+                .Include(user => user.RecievedMessages)
+                .FirstOrDefault()
+                ?.RecievedMessages.ToList();
         }
 
         public ICollection<ApplicationUser> getCorrespondants(ApplicationUser currentUser)
         {
-            var correspondants = new List<ApplicationUser>();
-            var allMessages = getAllMessages(currentUser);
-            foreach (var message in allMessages)
-            {
-                if(message.Sender.UserName != currentUser.UserName){
-                    correspondants.Add(message.Sender);
-                }else
-                {
-                    correspondants.Add(message.Reciever);
-                }
-            }
-            
-            return correspondants?.Distinct().ToList();
-        }
-
-        private ICollection<Message> getAllMessages(ApplicationUser currentUser)
-        {
-             return _context.Messages
-            .Where(m => m.Reciever.UserName == currentUser.UserName || m.Sender.UserName == currentUser.UserName)
-            .ToList();
-        }
-
-        public DateTime getLastTalked(ApplicationUser currentUser, ApplicationUser correpondant)
-        {
-            return _context.Messages
-                .Where(m =>
-                    (m.Sender.UserName == currentUser.UserName && m.Reciever.UserName == correpondant.UserName) 
-                    || (m.Reciever.UserName == currentUser.UserName && m.Sender.UserName == correpondant.UserName)
-                )
-                .OrderByDescending(m=>m.SendDate)
+            var senders = _context.Users
+                .Where(user =>user == currentUser)
+                .Include(user => user.RecievedMessages)
                 .FirstOrDefault()
-                .SendDate;
+                ?.RecievedMessages
+                ?.Select(r => r.Sender)
+                ?.Distinct();
+            var recievers = _context.Users
+                .Where(user => user == currentUser)
+                .Include(user => user.SentMessages)
+                .FirstOrDefault()
+                ?.SentMessages
+                ?.Select(s => s.Reciever)
+                ?.Distinct();
+
+            return senders == null ? recievers.ToList() : senders.Concat(recievers)?.Distinct().ToList();
+        }
+
+
+
+
+        public DateTime? getLastTalked(ApplicationUser currentUser, ApplicationUser correpondant)
+        {
+            DateTime? lastSent = _context.Users
+                .Where(user => user == currentUser)
+                .Include(user => user.SentMessages)
+                .FirstOrDefault()
+                ?.SentMessages
+                .Where(s=>s.Reciever.UserName == correpondant.UserName)
+                ?.Select(s => s.SendDate).Max();
+            DateTime? lastRecieved = _context.Users
+                .Where(user => user == currentUser)
+                .Include(user => user.RecievedMessages)
+                .FirstOrDefault()
+                ?.RecievedMessages
+                .Where(r=>r.Sender.UserName == correpondant.UserName)
+                ?.Select(s => s.SendDate).Max();
+
+            return lastSent == null ? lastRecieved :
+                            lastRecieved == null ? lastSent :
+                                lastSent > lastRecieved ? lastSent : lastRecieved;
+
         }
 
         public bool AreAllConversationsRead(ApplicationUser currentUser, ApplicationUser correpondant)
         {
-            return _context.Messages
-                .Where(m =>(m.Reciever.UserName == currentUser.UserName && m.Sender.UserName == correpondant.UserName)
-                ).Any(m=>m.isRead == false);
+
+            return _context.Users
+                .Where(user => user == currentUser)
+                .Include(user => user.RecievedMessages)
+                .FirstOrDefault()?.RecievedMessages == null 
+                ?
+                true 
+                :
+                _context.Users
+                .Where(user => user == currentUser)
+                .Include(user => user.RecievedMessages)
+                .FirstOrDefault()
+                .RecievedMessages
+                .Where(r => r.Sender.UserName == correpondant.UserName)
+                .Any(r => r.isRead == false);
         }
     }
 }

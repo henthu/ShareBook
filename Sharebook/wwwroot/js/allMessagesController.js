@@ -17,7 +17,7 @@
 
 
 
-        $http.get("/api/messages/All")
+        $http.get("/api/messages")
             .then(function(Response) {
                 //success
                 alert(JSON.stringify(Response));

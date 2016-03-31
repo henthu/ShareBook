@@ -8,7 +8,7 @@ using Sharebook.Models;
 namespace Sharebook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160326095348_Seventh")]
+    [Migration("20160330144406_Seventh")]
     partial class Seventh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,7 +205,25 @@ namespace Sharebook.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("Sharebook.Models.Message", b =>
+            modelBuilder.Entity("Sharebook.Models.RecievedMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("SendDate");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired();
+
+                    b.Property<bool>("isRead");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("Sharebook.Models.SentMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -217,9 +235,6 @@ namespace Sharebook.Migrations
                         .IsRequired();
 
                     b.Property<DateTime>("SendDate");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired();
 
                     b.Property<bool>("isRead");
 
@@ -283,15 +298,18 @@ namespace Sharebook.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Sharebook.Models.Message", b =>
+            modelBuilder.Entity("Sharebook.Models.RecievedMessage", b =>
+                {
+                    b.HasOne("Sharebook.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
+                });
+
+            modelBuilder.Entity("Sharebook.Models.SentMessage", b =>
                 {
                     b.HasOne("Sharebook.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("RecieverId");
-
-                    b.HasOne("Sharebook.Models.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("SenderId");
                 });
         }
     }

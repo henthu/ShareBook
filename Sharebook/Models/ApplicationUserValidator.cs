@@ -19,7 +19,7 @@ namespace Sharebook.Models
         private bool IsUniqueUserName(string userName)
         {
             return _context.Users
-                        .Where( user => user.UserName == userName)
+                        .Where( user => user.UserName.ToLower() == userName.ToLower())
                         .SingleOrDefault() == null ;
         }
 

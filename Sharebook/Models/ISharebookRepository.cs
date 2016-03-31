@@ -19,12 +19,12 @@ namespace Sharebook.Models
         string getBookOwner(int id);
         Comment getComment(int id);
         
-        void deleteMessage(int id);
-        ICollection<Message> getMessages(ApplicationUser reciever, ApplicationUser sender);
+        
+        ICollection<RecievedMessage> getMessages(ApplicationUser reciever, ApplicationUser sender);
         ICollection<ApplicationUser> getCorrespondants(ApplicationUser currentUser);
-        void AddMessage(Message newMessage);
-        ICollection<Message> getRecievedMessages(ApplicationUser currentUser);
-        DateTime getLastTalked(ApplicationUser currentUser, ApplicationUser correpondant);
+        void AddMessage(Message newMessage, ApplicationUser sender,ApplicationUser reciever);
+        ICollection<RecievedMessage> getRecievedMessages(ApplicationUser currentUser);
+        DateTime? getLastTalked(ApplicationUser currentUser, ApplicationUser correpondant);
         bool AreAllConversationsRead(ApplicationUser currentUser, ApplicationUser correpondant);
     }
 }
